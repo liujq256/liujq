@@ -164,9 +164,13 @@ function AD()
                     
                     //element.style.backgroundImage = 'url("' + t.img +'")';
                     
-                    
+                    //选择明星
                     element.onclick = function(e){ 
                          $('.people').hide(800);
+                         var numTimer1 = null;
+                         var numTimer2 = null;
+                         var numTimer3 = null;
+
                          $('.event').show(800,()=>{
                            
                             //返回键显现
@@ -176,6 +180,7 @@ function AD()
 
                             //返回键单击
                              $('.go-btn').click(()=>{
+                                clearCloud();
                                 $('.event').hide(300);
                                 
                                 $('.people').show(800);
@@ -186,11 +191,138 @@ function AD()
 
                              var index = elem[0].index; 
                              var data = _table[index];
-                             $('.event .name').html(data.name);
-                             $('.event .ename').html(data.ename);
-                             $('.event .ren').attr('src', './image/' + data.name + '.jpg');
+                             $('.event .name').html(data.name);    //显示中文名
+                             $('.event .ename').html(data.ename);  //显示英文名
+                             $('.event .ren').attr('src', './image/' + data.name + '.jpg');   //显示图片
+
+                             //启动字符云
+                             initCloud();
+
+                             clearInterval(numTimer1);
+                             clearInterval(numTimer2);
+                             clearInterval(numTimer3);
+
+                             var time1 = 1000 + parseInt(Math.random() * 2000);
+                             var time2 = 1000 + parseInt(Math.random() * 2000);
+                             var time3 = 1000 + parseInt(Math.random() * 2000);
+
+                             var num1 = 0;
+                             var num2 = 0;
+                             var num3 = 0;
+
+                             var max1 = 10000 + parseInt(1000 + Math.random() * 100000);
+                             var max2 = 10000 + parseInt(1000 + Math.random() * 100000);
+                             var max3 = 10000 + parseInt(1000 + Math.random() * 100000);
+
+                             var events = [
+                                 '新闻事件好热闹1',
+                                 '新闻事件好热闹2',
+                                 '新闻事件好热闹3',
+                                 '新闻事件好热闹4',
+                                 '新闻事件好热闹5',
+                                 '新闻事件好热闹6',
+                                 '新闻事件好热闹7',
+                                 '新闻事件好热闹8',
+                                 '新闻事件好热闹9',
+                                 '新闻事件好热闹10',
+                             ];
+                             
+                             function animation(fun){
+                                requestAnimationFrame(fun)  
+                              }
 
 
+                             numTimer1 = setInterval(() => {
+                                 if(num1 < max1)
+                                 {
+                                    var step1 = 1000 + parseInt(Math.random() * 30000);
+                                    num1 += step1;
+                                    $('.number1').html(num1);
+
+                                    addTopics(1,40);
+                                    
+                                 }else{
+                                    $('.number1').html(max1);
+                                    clearInterval(numTimer1);
+                                    $('.loading-circle-1').hide();
+                                 }
+                             }, time1);
+
+                             numTimer2 = setInterval(() => {
+                                if(num2 < max2)
+                                {
+                                    var step2 = 1000 + parseInt(Math.random() * 30000);
+                                   num2 += step2;
+                                   $('.number2').html(num2);
+
+                                   addTopics(2,300);
+                                }else{
+                                   $('.number2').html(max2);
+                                   clearInterval(numTimer2);
+                                   $('.loading-circle-2').hide();
+                                }
+                            }, time2);
+
+                            numTimer3 = setInterval(() => {
+                                if(num3 < max3 + 10000000)
+                                {
+                                    var step3 = 1000 + parseInt(Math.random()* 30000);
+                                   num3 += step3;
+                                   $('.number3').html(num3);
+                                   addTopics(3,600);
+                                }else{
+                                   $('.number3').html(max3);
+                                   clearInterval(numTimer3);
+                                   $('.loading-circle-3').hide();
+                                }
+                            }, time3);
+
+                            function addTopics(i,left)
+                            {
+                                if(events.length > 0)
+                                        {
+                                            var txt = events.shift();
+                                            var oTag = document.createElement('a');
+                                            oTag.innerHTML = txt;
+                                            oTag.style.display = 'block';
+                                            oTag.style.position = 'absolute';
+                                            oTag.style.zIndex = 999;
+                                            oTag.style.top = '370px';
+
+                                            
+                                            oTag.style.left = left + 'px';
+
+                                            $('#tagsList').append(oTag);
+                                            var top  = 370;
+                                            var l = left;
+                                            var create = function (){
+                                                oTag.style.top = (top -= 10) + 'px';
+                                                if(i == 1)
+                                                {
+                                                    oTag.style.left = (l += 5) + 'px';
+                                                }
+                                                else if(i == 3)
+                                                {
+                                                    oTag.style.left = (l -= 2) + 'px';
+                                                }
+                                                
+                                                 
+                                                    if(top > 0) {animation(create);}
+                                                    else  {
+                                                         var t =  oTag.innerText;
+                                                        $(oTag).hide();
+                                                         oTag.remove();
+                                                        addCloud(t);  
+                                                        /* $(oTag).hide();
+                                                        addCloud(t); */
+
+                                                    }
+                                            }  
+                                            
+                                            animation(create);
+                                        }
+                            }
+ 
                          });
                          
                         //Loading.startLoading();

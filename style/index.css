@@ -6,8 +6,7 @@ html, body {
 	background-color: #000000;
 	margin: 0;
 	font-family: Helvetica, sans-serif;;
-	overflow: hidden;
-	/* background-image: url(../image/starbg.jpg); */
+	overflow: hidden; 
 } 
 
 a {
@@ -85,13 +84,7 @@ a {
     overflow: hidden;
     position: relative;
 }
-.label-box {
-    height: 35%;
-    width: 100%;
-    background: pink;
-    margin-top: 204px;
-    padding-left: 3%;
-}
+
 .num-box {
     height: 25%;
     width: 100%;
@@ -114,10 +107,98 @@ a {
     color:#fff;
 }
 
- 
-.people{
-	/* display: none; */
+@keyframes rotation{
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
 }
+.loading-circle{
+    position: absolute;
+    left: 42px;
+    top: 0;
+    box-sizing: border-box;
+    width: 172px;
+    height: 172px; 
+    background-image: url('../image/loadingbg.png'); 
+
+     
+}
+.loading-circle-1{
+    animation: rotation 0.8s linear infinite;
+}
+.loading-circle-2{
+    animation: rotation 1.6s linear infinite;
+}
+.loading-circle-3{
+    animation: rotation 1.4s linear infinite;
+}
+.container-circle{
+    position: absolute;
+    left: 42px;
+    top: 0;
+    box-sizing: border-box;
+    width: 172px;
+    height: 172px;
+    border-radius: 86px;
+    border: 5px solid;
+	/* opacity: 0.3; */
+	border-color: rgba(215,215,215,0.3);
+ 
+}
+
+.container-circle .number {
+	position: relative;
+   /*  left: 42px; */
+    top: 56px;
+	font-size: 36px;
+	font-weight: bold;
+	display: block;
+	color: #fff;
+	opacity: 1;
+}
+
+
+
+#tagsList {
+
+	position: relative;
+
+	margin: 204px auto 0;
+
+}
+.label-box {
+    height: 35%;
+    width: 100%;  
+    padding-left: 3%;
+}
+#tagsList a {
+
+	position: absolute;
+
+	top: 0px;
+
+	left: 0px;
+
+	font-family: Microsoft YaHei;
+
+	color: #fff;
+
+	font-weight: bold;
+
+	text-decoration: none;
+
+	padding: 3px 6px;
+
+}
+
+#tagsList a:hover {
+
+	color: #FF0000;
+
+	letter-spacing: 2px;
+
+}
+
+ 
 .event{
 	display: none;
 }
