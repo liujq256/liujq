@@ -312,7 +312,7 @@ function AD()
                                                          var t =  oTag.innerText;
                                                         $(oTag).hide();
                                                          oTag.remove();
-                                                        addCloud(t);  
+                                                        //addCloud(t);  
                                                         /* $(oTag).hide();
                                                         addCloud(t); */
 
