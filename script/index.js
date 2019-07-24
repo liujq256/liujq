@@ -21,6 +21,8 @@ var item2 = {
     id:'1'
 };
 
+var EventIndex = 0;
+
 function AD()
 {
     var loadingTimer = null;
@@ -63,21 +65,21 @@ function AD()
                 button.addEventListener( 'click', function ( event ) {
             
                     transform( targets.sphere, 2000 );
-            
+                    EventIndex = 0;
                 }, false );
             
                 var button = document.getElementById( 'helix' );
                 button.addEventListener( 'click', function ( event ) {
             
                     transform( targets.helix, 2000 );
-            
+                    EventIndex = 1;
                 }, false );
             
                 var button = document.getElementById( 'grid' );
                 button.addEventListener( 'click', function ( event ) {
             
                     transform( targets.grid, 2000 );
-            
+                    EventIndex = 2;
                 }, false );
               
                 transform( targets.sphere, 2000 );
@@ -155,6 +157,7 @@ function AD()
                     var t = _table[i];
                     var element = document.createElement( 'div' );
                     element.className = 'element';
+                    element.index = i;
                     //element.style.backgroundColor = 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';
                     element.style.backgroundColor = 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';
 
@@ -163,19 +166,44 @@ function AD()
                     
                     
                     element.onclick = function(e){ 
-                        unRender();
-                        alert(e.target.children[0].innerText);
-                        Loading.startLoading();
+                         $('.people').hide(800);
+                         $('.event').show(800,()=>{
+                           
+                            //返回键显现
+                            $('.left').hover(()=>{
+                                 $('.go-btn').show();
+                            },()=>{$('.go-btn').hide();})
+
+                            //返回键单击
+                             $('.go-btn').click(()=>{
+                                $('.event').hide(300);
+                                
+                                $('.people').show(800);
+                             });
+
+                             var ele = e.target;
+                             var elem = $(ele).closest('.element');
+
+                             var index = elem[0].index; 
+                             var data = _table[index];
+                             $('.event .name').html(data.name);
+                             $('.event .ename').html(data.ename);
+                             $('.event .ren').attr('src', './image/' + data.name + '.jpg');
+
+
+                         });
+                         
+                        //Loading.startLoading();
             
-                        setTimeout(()=>{
-                            document.getElementById( 'container' ).style.display = 'block';
-                            Loading.stopLoading();
-                        },5000);
+                        //setTimeout(()=>{
+                            //document.getElementById( 'container' ).style.display = 'block';
+                            //Loading.stopLoading();
+                        //},5000);
                     }
                     
 
-            var name = t.name;
-                     var number = document.createElement( 'div' );
+                    var name = t.name;
+                    var number = document.createElement( 'div' );
                     number.className = 'number';
                      
                     number.textContent = name;
@@ -191,16 +219,14 @@ function AD()
                         var symbolimg = document.createElement( 'img' );
                         symbolimg.src = t.img;
                         symbolimg.height = '80';
-                        symbolimg.style.opacity = '0.5';
-                        //symbol.textContent = name;
-                        //symbol.style.backgroundImage = 'url("' + t.img +'")';
+                        symbolimg.style.opacity = '0.3'; 
                         symbol.appendChild( symbolimg );
 
                         symbolimg.onmouseover = function(e){ 
                             e.target.style.opacity = '1';
                         }
                         symbolimg.onmouseout = function(e){ 
-                            e.target.style.opacity = '0.5';
+                            e.target.style.opacity = '0.3';
                         }
 
                     //表面现实的字
@@ -217,7 +243,7 @@ function AD()
                         symbol.textContent = name;
                         element.appendChild( symbol );
                     }
-            */
+                  */
                     var details = document.createElement( 'div' );
                         details.className = 'details';
                         //details.innerHTML = table[ i + 1 ] + '<br>' + table[ i + 2 ];
@@ -318,9 +344,7 @@ function AD()
                 
             
             }
-            function unRender (){ 
-                document.getElementById( 'container' ).style.display = 'none';
-            }
+             
     }
 
     var Loading =   

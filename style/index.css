@@ -7,25 +7,120 @@ html, body {
 	margin: 0;
 	font-family: Helvetica, sans-serif;;
 	overflow: hidden;
-	background-image: url(../image/starbg.jpg);
+	/* background-image: url(../image/starbg.jpg); */
 } 
 
 a {
 	color: #ffffff;
 }
   
-#info {
-	position: absolute;
-	width: 100%;
-	color: #ffffff;
-	padding: 5px;
-	font-family: Monospace;
-	font-size: 13px;
-	font-weight: bold;
-	text-align: center;
-	z-index: 1;
+
+.main {
+    width: 100vw;
+    height: 100vh;
+    background: url(../image/starbg.jpg) no-repeat;
+    background-size: 100% 100%;
+    padding-top: 30px;
+}
+/* 标题 */
+.topbar {
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+    position: relative;
+}
+.logo {
+    width: 138px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -185px;
+
+}
+.title {
+    font-size:30px;
+    color:#fff;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -30px;
+}
+/* 内容区 */
+.content {
+    width: 100%;
+    height: 77vh;
+    margin-top: 5vh;
+}
+.left,
+.right{
+    width: 50%;
+    height: 100%;
+}
+/* 左边 */
+.left {
+    padding-left: 10%;
+}
+.go-btn { 
+	cursor: pointer;
+	display: none;
+}
+ 
+.name {
+    font-size:68px;
+    font-weight:bold;
+    color:#fff;
+}
+.ename {
+    font-size:48px;
+    font-weight:bold;
+    color:rgba(215, 215, 215, 0.1);
+}
+.ren {
+    width: 100%;
+    margin-top: 20px;
+}
+/* 右边 */
+.right{
+    padding-right: 10%;
+    overflow: hidden;
+    position: relative;
+}
+.label-box {
+    height: 35%;
+    width: 100%;
+    background: pink;
+    margin-top: 204px;
+    padding-left: 3%;
+}
+.num-box {
+    height: 25%;
+    width: 100%;
+    margin-top: 9%;
+}
+.num-list {
+    width: 100%;
+    height: 100%;
+}
+.num-list .item {
+    width: 33.3%;
+    height: 100%;
+    float: left;
+    text-align: center;
+}
+.source {
+    width: 100%;
+    font-size:24px;
+    font-weight:bold;
+    color:#fff;
 }
 
+ 
+.people{
+	/* display: none; */
+}
+.event{
+	display: none;
+}
 #menu {
 	position: absolute;
 	bottom: 20px;
