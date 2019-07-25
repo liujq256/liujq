@@ -64,11 +64,17 @@ var initCloud = function ()
 
 var addCloud = function (txt){
 	oDiv=document.getElementById('tagsList');
-	 
-	var oa = document.createElement('a');
-
-	oa.innerHTML = txt;
-	oDiv.appendChild(oa);
+	var oa = null;
+	if(typeof txt == "string")
+	{
+	   oa = document.createElement('a');
+	   oa.innerHTML = txt;
+	   oDiv.appendChild(oa);
+	}else{
+		oa = txt;
+		//oa.style = {};
+	}
+	
 	 
 		var oTag={};
 		
@@ -89,6 +95,7 @@ var stopCloud = function (){
 }
 var clearCloud = function(){
 	stopCloud();
+	$('#tagsList').html('');
 	mcList = [];
 }
 function update()

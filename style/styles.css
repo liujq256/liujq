@@ -60,9 +60,9 @@ html,body {
 }
 /* line 48, ../sass/partials/_base.scss */
 ol,
-ul {
+/* ul {
   list-style: none;
-}
+} */
 
 /* line 53, ../sass/partials/_base.scss */
 a {
