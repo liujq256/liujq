@@ -38,23 +38,80 @@ function resetUser()
 function AD()
 {
     var loadingTimer = null;
+
     this.PeopleTask =  function(){
-         var _table = []; 
-          for (let i = 0; i < 100; i++) {
-                var element =  {...item};
-                element.id = i+1;
-                element.name = element.name;
-                _table.push(element);              
-            }
+        var camera, scene, renderer;
+        var controls;
 
-            var camera, scene, renderer;
-            var controls;
+        var objects = [];
+        var targets = { table: [], sphere: [], helix: [], grid: [] };
+        var _table = []; 
 
-            var objects = [];
-            var targets = { table: [], sphere: [], helix: [], grid: [] };
+        var arr1 = [];
+        var arr2 = [];
 
-            init();
-            animate();
+        fetchPeoples().then((peoples)=>{ 
+                if(peoples && peoples.length)
+                {
+                    peoples.forEach((star)=>{
+                            var images = star.imgs;
+                            if(images && images.length)
+                            {
+                                images.forEach((img)=>{
+                                    var element =  {...item};
+
+                                    element.id = star._id;
+                                    element.name = star.name;
+                                    element.ename = star.enName;
+                                    element.topics = star.topicList;
+                                    element.img = img;
+                                    if(arr1.some(a=>a.id == star.id))
+                                    {
+                                        arr2.push(element);
+                                    }else{
+                                        arr1.push(element);
+                                    }
+                                      
+                                });
+                            }else{
+                                images = ['./image/pengyuyan.jpg','./image/pengyuyan.jpg'];
+                                images.forEach((img)=>{
+                                    var element =  {...item};
+
+                                    element.id = star._id;
+                                    element.name = star.name;
+                                    element.ename = star.enName;
+                                    element.topics = star.topicList;
+                                    element.img = img;
+                                    if(arr1.some(a=>a.id == star._id))
+                                    {
+                                        arr2.push(element);
+                                    }else{
+                                        arr1.push(element);
+                                    }
+                                      
+                                });
+                            }
+                    });
+                    _table =  [...arr1,...arr2];
+
+                }else{
+                    for (let i = 0; i < 100; i++) {
+                    var element =  {...item};
+                    element.id = i+1;
+                    element.name = element.name;
+                    _table.push(element);              
+                  }
+                }
+
+                init();
+                animate();
+         });
+          
+
+            
+
+           
 
             function init() {	
                 buildAnimation();
@@ -178,6 +235,11 @@ function AD()
                              $('.go-btn').click(()=>{
                                 clearCloud();
                                 $('.container-circle .number').html(0);
+                                //var bgurl = "url('./image/loadingCirclebg.png')";
+                                            //$('.container-circle-' + index)[0].style.backgroundImage = bgurl;
+                                $('.container-circle').css('backgroundImage', '');
+                                $('.container-circle').css('border', '2px solid');
+
                                 //$('.number2').html(0);
                                 //$('.number3').html(0);
 
@@ -193,7 +255,7 @@ function AD()
                              var data = _table[index];
                              $('.event .name').html(data.name);    //显示中文名
                              $('.event .ename').html(data.ename);  //显示英文名
-                             $('.event .ren').attr('src', './image/' + data.name + '.jpg');   //显示图片
+                             $('.event .ren').attr('src', './image/' + data.name + 'event.jpg');   //显示图片
                              $('.loading-circle-1').show();
                              $('.loading-circle-2').show();
                              $('.loading-circle-3').show();
@@ -201,90 +263,107 @@ function AD()
                                
                              //启动字符云
                              initCloud();
-
-                             var events = [
+                             var events = User.topics;
+                             /* var events = [
                                  '新闻事件好热闹1',
                                  '新闻事件好热闹2',
                                  '新闻事件好热闹3', 
                                  '新闻事件好热闹9',
                                  '新闻事件好热闹10',
-                             ];
+                             ]; */
 
-                             var k = 200000;
-                             var max1 = k;
-                             var max2 = k * 0.5;
-                             var max3 = k * 0.3;
+                             fetchCount(User.name).then((count)=>{
+                                var k = parseInt(count);
+                                var max1 = k;
+                                var max2 = k * 0.5;
+                                var max3 = k * 0.3;
 
-                             var min1 = k - 10000;
-                             var min2 = k * 0.5 - 10000;
-                             var min3 = k * 0.3 - 10000;
+                                var min1 = k - 10000;
+                                var min2 = k * 0.5 - 10000;
+                                var min3 = k * 0.3 - 10000;
 
-                             var max = [0,max1,max2,max3];
-                             var min = [0,min1,min2,min3];
+                                var max = [0,max1,max2,max3];
+                                var min = [0,min1,min2,min3];
 
-                             var len = events.length;
-                             var count = 1;
-                             if(len % 3)
-                             {
-                                count = parseInt(len/3,10) + 1 ;
-                             }else{
-                                count = parseInt(len/3,10);
-                             }
-                             
+                                var len = events.length;
+                                var count = 1;
+                                if(len % 3)
+                                {
+                                    count = parseInt(len/3,10) + 1 ;
+                                }else{
+                                    count = parseInt(len/3,10);
+                                }
+                                
 
-                             User.topics = events;
-                             function animation(fun){
-                                requestAnimationFrame(fun)  
-                              }
-
-                              function setTimer (index,left,num)
-                              {
-                                var time1 = 1000 + parseInt(Math.random() * 3000);
-                                setTimeout(() => {
-                                    if(events.length > 0)
-                                    {
-                                       var step = parseInt(Math.random() * 1000);
-                                                                                
-                                        step = parseInt(min[index]/count) + step;
-                                       
-                                       var num1 = num;
-                                       num += step;
-                                       var tempTimer = setInterval(() => {
-                                           if(num1 < num)
-                                           {
-                                             num1 += (10 +  parseInt(Math.random() * 1000));
-                                             $('.number' + index).html(num1);
-                                           }else{
-
-                                            $('.number' + index).html(num);
-                                            clearInterval(tempTimer);
-                                            addTopics(index,left);
-                                            setTimer (index,left,num);
-                                           }
-                                       }, 30);
-                                                                             
-                                       
-                                    }else{ 
-                                         
-                                        var tempTimer2 =  setInterval(() => {
-                                                if(num < min[index])
-                                                {
-                                                    num += (1000 +  parseInt(Math.random() * 1000));
-                                                  $('.number' + index).html(num);
-                                                }else{    
-                                                 clearInterval(tempTimer2); 
-                                                  $('.loading-circle-' + index).hide();
-                                                }
-                                            }, 30);
+                                
+                                function setTimer (index,left,num)
+                                {
+                                    var time1 = 1000 + parseInt(Math.random() * 3000);
+                                    setTimeout(() => {
+                                        if(events.length > 0)
+                                        {
+                                        var step = parseInt(Math.random() * 1000);
+                                                                                    
+                                            step = parseInt(min[index]/count) + step;
                                         
-                                      
-                                    }
-                                }, time1);
-                              }
+                                        var num1 = num;
+                                        num += step;
+                                        if(num < max[index])
+                                        {
+                                            var tempTimer = setInterval(() => {
+                                            if(num1 < num)
+                                            {
+                                                num1 += (10 +  parseInt(Math.random() * 1000));
+                                                $('.number' + index).html(num1);
+                                            }else{
 
-                             setTimer(1,40,0);
-                             setTimer(2,300,0);
-                             setTimer(3,600,0);
+                                                $('.number' + index).html(num);
+                                                clearInterval(tempTimer);
+                                                addTopics(index,left);
+                                                setTimer (index,left,num);
+                                            }
+                                            }, 30);
+                                        }else{
+                                            $('.loading-circle-' + index).hide();
+                                            var bgurl = "url('./image/loadingCirclebg.png')";
+                                            //$('.container-circle-' + index)[0].style.backgroundImage = bgurl;
+                                            $('.container-circle-' + index).css('backgroundImage', bgurl);
+                                            $('.container-circle-' + index).css('border', 'none');
+
+                                        }
+                                        
+                                                                                
+                                        
+                                        }else{ 
+                                            
+                                            var tempTimer2 =  setInterval(() => {
+                                                    if(num < min[index])
+                                                    {
+                                                        num += (1000 +  parseInt(Math.random() * 1000));
+                                                    $('.number' + index).html(num);
+                                                    }else{    
+                                                    clearInterval(tempTimer2); 
+                                                    $('.loading-circle-' + index).hide();
+                                                    var bgurl = "url('./image/loadingCirclebg.png')";
+                                                    $('.container-circle-' + index).css('backgroundImage', bgurl);
+                                                    $('.container-circle-' + index).css('border', 'none');
+                                                    }
+                                                }, 30);
+                                            
+                                        
+                                        }
+                                    }, time1);
+                                }
+
+                                setTimer(1,40,0);
+                                setTimer(2,300,0);
+                                setTimer(3,600,0);
+                             })
+                             
+ 
+                                function animation(fun){
+                                    requestAnimationFrame(fun)  
+                                }
 
                               
                             function addTopics(i,left)
@@ -394,9 +473,9 @@ function AD()
                                 var containerLi = document.createElement('li');
                                 var containerPerson = document.createElement('div');
                                 containerPerson.className = 'person-page';
-                                var url = "url('./image/"+User.name+".jpg')";
+                                var url = "url('./image/"+User.name+"cover.jpg')";
                                 containerPerson.style.backgroundImage= url;
-                                userportrait.src = './image/'+User.name+'.jpg';
+                                userportrait.src = './image/'+User.name+'portrait.png';
                                 var imgleft = document.createElement('img');
                                 var imgright = document.createElement('img');
                                 var divInfo = document.createElement('div');

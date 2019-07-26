@@ -276,6 +276,31 @@ button:active {
 	color: #000000;
 	background-color: rgba(0,255,255,0.75);
 }
+.people .btn{
+	width:56px;
+	height:56px;
+	cursor: pointer;
+	display: inline-block;
+}
+.people .btn1{ 
+	background-image: url(../image/02.png)
+}
+.people .btn1:hover{ 
+	background-image: url(../image/3.png)
+}
+.people .btn2{ 
+	background-image: url(../image/03.png)
+}
+.people .btn2:hover{ 
+	background-image: url(../image/3.png)
+}
+.people .btn3{ 
+	background-image: url(../image/01.png)
+}
+.people .btn3:hover{ 
+	background-image: url(../image/1.png)
+}
+
 
 /* 底部投影光 */
 .light {
