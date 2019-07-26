@@ -17,6 +17,7 @@
         <script src="./script/TrackballControls.js" ></script>
         <script src="./script/CSS3DRenderer.js" ></script>
         <div class="main">
+                <img src="./image/light.png" alt="" class="light">
                 <div class="topbar">
                     <img src="./image/logo.png" class="logo" alt="" />
                     <div class="title">
@@ -91,7 +92,7 @@
                 </div>
  
                 <div class="books swiper-box no-js">
-                        <img src="./image/light.png" alt="" class="light">
+                        
                                 <!-- 话题 -->
                         <div class="topic">
                                 <p class="topic-title">生成话题</p>
@@ -138,7 +139,22 @@
                         <div class="swiper-button-prev" id="nav-prev"></div>      
                              
                 </div>
-
+ 
+                <div class="result ewm-box">
+                                <div class="iphone-box">
+                                     <iframe  id="articleiframe"></iframe>
+                                </div>
+                                <div class="ewm">
+                                    <div class="fenxiang">分享成功</div>
+                                    <div class="m-box" id="code">
+                                            
+                                    </div>
+                                    <div class="ewm-text">
+                                        扫码观看
+                                    </div>
+                                </div>
+                </div> 
+                
 
     <canvas id="canvas" width="1920" height="1080" style = "display: none;z-index: 9999999; position: absolute; left: 0; top: 0;"> 您的浏览器不支持canvas标签，请您更换浏览器 </canvas>
  
@@ -158,5 +174,7 @@
 
 
 <script src="./script/index.js" ></script>
+<script src="./script/jquery.qrcode.min.js" ></script>
+
 
 </html>

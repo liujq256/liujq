@@ -234,15 +234,10 @@ function AD()
                             //返回键单击
                              $('.go-btn').click(()=>{
                                 clearCloud();
-                                $('.container-circle .number').html(0);
-                                //var bgurl = "url('./image/loadingCirclebg.png')";
-                                            //$('.container-circle-' + index)[0].style.backgroundImage = bgurl;
+                                $('.container-circle .number').html(0); 
                                 $('.container-circle').css('backgroundImage', '');
                                 $('.container-circle').css('border', '2px solid');
-
-                                //$('.number2').html(0);
-                                //$('.number3').html(0);
-
+ 
                                 $('.event').hide(300);
                                 
                                 $('.people').show(800);
@@ -264,14 +259,7 @@ function AD()
                              //启动字符云
                              initCloud();
                              var events = User.topics;
-                             /* var events = [
-                                 '新闻事件好热闹1',
-                                 '新闻事件好热闹2',
-                                 '新闻事件好热闹3', 
-                                 '新闻事件好热闹9',
-                                 '新闻事件好热闹10',
-                             ]; */
-
+                             
                              fetchCount(User.name).then((count)=>{
                                 var k = parseInt(count);
                                 var max1 = k;
@@ -292,9 +280,7 @@ function AD()
                                     count = parseInt(len/3,10) + 1 ;
                                 }else{
                                     count = parseInt(len/3,10);
-                                }
-                                
-
+                                }                               
                                 
                                 function setTimer (index,left,num)
                                 {
@@ -325,8 +311,7 @@ function AD()
                                             }, 30);
                                         }else{
                                             $('.loading-circle-' + index).hide();
-                                            var bgurl = "url('./image/loadingCirclebg.png')";
-                                            //$('.container-circle-' + index)[0].style.backgroundImage = bgurl;
+                                            var bgurl = "url('./image/loadingCirclebg.png')"; 
                                             $('.container-circle-' + index).css('backgroundImage', bgurl);
                                             $('.container-circle-' + index).css('border', 'none');
 
@@ -361,11 +346,10 @@ function AD()
                              })
                              
  
-                                function animation(fun){
-                                    requestAnimationFrame(fun)  
-                                }
-
-                              
+                            function animation(fun){
+                                requestAnimationFrame(fun)  
+                            }
+                             
                             function addTopics(i,left)
                             {
                                      if(events.length > 0)
@@ -387,60 +371,74 @@ function AD()
                                                 console.log(User);
                                                 //选择话题事件
                                                 Loading.startLoading();
-                                                $('.event').hide();
 
-                                                setTimeout(()=>{
-                                                    var articles = [
-                                                       {content: '<p>我是第一篇文章 明星好多啊</p>',id:1},
-                                                       {content: '<p>我是第2篇文章 明星好多啊</p>',id:2},
-                                                       {content: '<p>我是第3篇文章 明星好多啊</p>',id:3},
-                                                       {content: '<p>我是第4篇文章 明星好多啊</p>',id:4},
-                                                       {content: '<p>我是第5篇文章 明星好多啊</p>',id:5},
-                                                       {content:  '<p>我是第6篇文章 明星好多啊</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星好多啊</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星好多啊</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星好多啊ds</p>',id:6},
-                                                       {content:  '<p>我是第6篇greg文章 明星好多啊dsdd</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星好多啊fdsf</p>',id:6},
-                                                       {content:  '<p>我是第6篇ggegre文章 明星好多啊fdsfds</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星好多啊fdsfsd</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',id:6},
-                                                       {content:  '<p>我是第6篇文erger章 明星好多啊fdsfds</p>',id:6},
-                                                       {content:  '<p>我是第6篇greg文章 明星好多啊fdsf</p>',id:6},
-                                                       {content:  '<p>我是第6篇gfdgfd文章 明星好多啊fdsf</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',id:6},
-                                                       {content:  '<p>我是第6dfgdf篇文章 明星好多啊vvv</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星好多啊werewr</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星好多啊rewdfgdf</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星好多啊gfdgdfgfd</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星好gfdgfd多啊</p>',id:6},
-                                                       {content:  '<p>我是第6fdgrg篇文章 明星好gfdgfd多啊</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星好gdfgdf多啊</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星好bvcb多啊</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星cvb好多啊</p>',id:6},
-                                                       {content:  '<p>我是第6篇文章 明星vcbc好多啊</p>',id:6},
-
-                                                    ]
-                                                    buildCoverPage();
-                                                    buildContentPage(articles);
-                                                     
-                                                    var baraja = $( '#baraja-el' ).baraja();  
-                                                    // navigation
-                                                     $( '#nav-prev' ).on( 'click', function( event ) {
-                                                    
-                                                        baraja.previous();
-                                                    
-                                                    } );
-                                                    
-                                                    $( '#nav-next' ).on( 'click', function( event ) {
-                                                        baraja.next();
-                                                    
-                                                    } ); 
-                                                    $('.books').show(600);
-                                                    Loading.stopLoading();
-                                                },5000);
+                                                
+                                                
+                                                fetchArticles(User.name,User.selectedTopic).then((articls)=>{
+                                                    console.log(articls);
+                                                    if(articls && articls.length > 0)
+                                                    {
+                                                    }else{
+                                                        var articles = [
+                                                            {content: '<p>我是第一篇文章 明星好多啊</p>',id:1},
+                                                            {content: '<p>我是第2篇文章 明星好多啊</p>',id:2},
+                                                            {content: '<p>我是第3篇文章 明星好多啊</p>',id:3},
+                                                            {content: '<p>我是第4篇文章 明星好多啊</p>',id:4},
+                                                            {content: '<p>我是第5篇文章 明星好多啊</p>',id:5},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊ds</p>',id:6},
+                                                            {content:  '<p>我是第6篇greg文章 明星好多啊dsdd</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsf</p>',id:6},
+                                                            {content:  '<p>我是第6篇ggegre文章 明星好多啊fdsfds</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsfsd</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',id:6},
+                                                            {content:  '<p>我是第6篇文erger章 明星好多啊fdsfds</p>',id:6},
+                                                            {content:  '<p>我是第6篇greg文章 明星好多啊fdsf</p>',id:6},
+                                                            {content:  '<p>我是第6篇gfdgfd文章 明星好多啊fdsf</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',id:6},
+                                                            {content:  '<p>我是第6dfgdf篇文章 明星好多啊vvv</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊werewr</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊rewdfgdf</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊gfdgdfgfd</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好gfdgfd多啊</p>',id:6},
+                                                            {content:  '<p>我是第6fdgrg篇文章 明星好gfdgfd多啊</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好gdfgdf多啊</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好bvcb多啊</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星cvb好多啊</p>',id:6},
+                                                            {content:  '<p>我是第6篇文章 明星vcbc好多啊</p>',id:6},
+     
+                                                         ]
+                                                         
+                                                    }
+                                                        buildCoverPage();
+                                                        buildContentPage(articles);
+                                                        
+                                                        var baraja = $( '#baraja-el' ).baraja();  
+                                                        // navigation
+                                                        $( '#nav-prev' ).on( 'click', function( event ) {
+                                                        
+                                                            baraja.previous();
+                                                        
+                                                        } );
+                                                        
+                                                        $( '#nav-next' ).on( 'click', function( event ) {
+                                                            baraja.next();
+                                                        
+                                                        } ); 
+                                                        
+                                                         
+                                                        setTimeout(()=>{                                                   
+                                                            Loading.stopLoading();
+                                                            $('.event').hide();
+                                                            $('.books').show(600);
+                                                            $('.light').show();
+                                                        },3000);
+                                                })
+                                                
                                             }
                                             
                                             oTag.style.left = left + 'px';
@@ -529,7 +527,21 @@ function AD()
                                                        containerPb.appendChild(pb);
                                                        containerPb.onclick = function(e){
                                                            e.stopPropagation();
+                                                           /* SetPublish(article.id).then(()=>{
+
+                                                           }); */
                                                            alert(article.id);
+
+                                                           $('.books').hide();
+                                                           var str = 'http://baijiahao.baidu.com/s?id=1640103312420732224';
+                                                           $('#code').qrcode({ 
+                                                            width: 190,
+                                                            height:190,
+                                                            text: str
+                                                        });
+                                                           document.getElementById('articleiframe').src = str;
+                                                           $('.light').attr('src','./image/ligt2.jpg')
+                                                           $('.result').show();
                                                        } 
                                                        containerContent.appendChild(containerPb);
 
@@ -743,6 +755,28 @@ function randomColor()
     var index = parseInt(Math.random() * 5);
     return colors[index]
 }
+
+function toUtf8(str) {   
+    var out, i, len, c;   
+    out = "";   
+    len = str.length;   
+    for(i = 0; i < len; i++) {   
+    	c = str.charCodeAt(i);   
+    	if ((c >= 0x0001) && (c <= 0x007F)) {   
+        	out += str.charAt(i);   
+    	} else if (c > 0x07FF) {   
+        	out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));   
+        	out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));   
+        	out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));   
+    	} else {   
+        	out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));   
+        	out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));   
+    	}   
+    }   
+    return out;   
+}
+
+
  var ad = new AD();
 ad.PeopleTask(); 
 
