@@ -389,8 +389,7 @@ var arr = [arr1,arr2,arr3,arr4];
                                                 User.selectedTopic = txt;
                                                 for(var each in pageTimer){
                                                     clearInterval(pageTimer[each]);
-                                                }
-                                                //console.log(User);
+                                                } 
                                                 //选择话题事件
                                                 Loading.startLoading();
                                                                                          
