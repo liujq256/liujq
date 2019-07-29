@@ -49,10 +49,11 @@ function AD()
 
         var arr1 = [];
         var arr2 = [];
-
+        var arr3 = [];
+var arr = [arr1,arr2,arr3];
         fetchPeoples().then((peoples)=>{ 
                 if(peoples && peoples.length)
-                {
+                {  
                     peoples.forEach((star)=>{
                             var images = star.imgs;
                             if(images && images.length)
@@ -65,17 +66,21 @@ function AD()
                                     element.ename = star.enName;
                                     element.topics = star.topicList;
                                     element.img = img;
-                                    if(arr1.some(a=>a.id == star.id))
+                                    arr[index].push(element);
+
+                                    /*if(arr1.some(a=>a.id == star._id))
                                     {
                                         arr2.push(element);
+                                    }else if(arr2.some(a=>a.id == star._id)){
+                                        arr3.push(element);
                                     }else{
                                         arr1.push(element);
-                                    }
+                                    }*/
                                       
                                 });
                             }else{
-                                images = ['./image/pengyuyan.jpg','./image/pengyuyan.jpg'];
-                                images.forEach((img)=>{
+                                images = ['./image/pengyuyan.jpg','./image/pengyuyan.jpg','./image/pengyuyan.jpg'];
+                                images.forEach((img,index)=>{
                                     var element =  {...item};
 
                                     element.id = star._id;
@@ -83,17 +88,20 @@ function AD()
                                     element.ename = star.enName;
                                     element.topics = star.topicList;
                                     element.img = img;
-                                    if(arr1.some(a=>a.id == star._id))
+                                    arr[index].push(element);
+                                    /*if(arr1.some(a=>a.id == star._id))
                                     {
                                         arr2.push(element);
+                                    }else if(arr2.some(a=>a.id == star._id)){
+                                        arr3.push(element);
                                     }else{
                                         arr1.push(element);
-                                    }
+                                    }*/
                                       
                                 });
                             }
                     });
-                    _table =  [...arr1,...arr2];
+                    _table =  [...arr1,...arr2,...arr3];
 
                 }else{
                     for (let i = 0; i < 100; i++) {
@@ -375,46 +383,36 @@ function AD()
                                                 
                                                 
                                                 fetchArticles(User.name,User.selectedTopic).then((articls)=>{
+                                                    var articles = [];
                                                     console.log(articls);
                                                     if(articls && articls.length > 0)
                                                     {
+                                                        articles = [...articls];
                                                     }else{
-                                                        var articles = [
-                                                            {content: '<p>我是第一篇文章 明星好多啊</p>',id:1},
-                                                            {content: '<p>我是第2篇文章 明星好多啊</p>',id:2},
-                                                            {content: '<p>我是第3篇文章 明星好多啊</p>',id:3},
-                                                            {content: '<p>我是第4篇文章 明星好多啊</p>',id:4},
-                                                            {content: '<p>我是第5篇文章 明星好多啊</p>',id:5},
-                                                            {content:  '<p>我是第6篇文章 明星好多啊</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星好多啊</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星好多啊</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星好多啊ds</p>',id:6},
-                                                            {content:  '<p>我是第6篇greg文章 明星好多啊dsdd</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsf</p>',id:6},
-                                                            {content:  '<p>我是第6篇ggegre文章 明星好多啊fdsfds</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsfsd</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',id:6},
-                                                            {content:  '<p>我是第6篇文erger章 明星好多啊fdsfds</p>',id:6},
-                                                            {content:  '<p>我是第6篇greg文章 明星好多啊fdsf</p>',id:6},
-                                                            {content:  '<p>我是第6篇gfdgfd文章 明星好多啊fdsf</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',id:6},
-                                                            {content:  '<p>我是第6dfgdf篇文章 明星好多啊vvv</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星好多啊werewr</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星好多啊rewdfgdf</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星好多啊gfdgdfgfd</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星好gfdgfd多啊</p>',id:6},
-                                                            {content:  '<p>我是第6fdgrg篇文章 明星好gfdgfd多啊</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星好gdfgdf多啊</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星好bvcb多啊</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星cvb好多啊</p>',id:6},
-                                                            {content:  '<p>我是第6篇文章 明星vcbc好多啊</p>',id:6},
+                                                         articles = [
+                                                            {content: '<p>我是第一篇文章 明星好多啊</p>',title:'我是标题1',_id:1},
+                                                            {content: '<p>我是第2篇文章 明星好多啊</p>',title:'我是标题1',_id:2},
+                                                            {content: '<p>我是第3篇文章 明星好多啊</p>',title:'我是标题1',_id:3},
+                                                            {content: '<p>我是第4篇文章 明星好多啊</p>',title:'我是标题1',_id:4},
+                                                            {content: '<p>我是第5篇文章 明星好多啊</p>',title:'我是标题1',_id:5},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊</p>',title:'我是标题1',_id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊</p>',title:'我是标题1',_id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊</p>',title:'我是标题1',_id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊ds</p>',title:'我是标题1',_id:6},
+                                                            {content:  '<p>我是第6篇greg文章 明星好多啊dsdd</p>',title:'我是标题1',_id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsf</p>',title:'我是标题1',_id:6},
+                                                            {content:  '<p>我是第6篇ggegre文章 明星好多啊fdsfds</p>',title:'我是标题1',_id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsfsd</p>',title:'我是标题1',_id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',title:'我是标题1',_id:6},
+                                                            {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',title:'我是标题1',_id:6},
+                                                            {content:  '<p>我是第6篇文erger章 明星好多啊fdsfds</p>',title:'我是标题1',_id:6},
+                                                            {content:  '<p>我是第6篇greg文章 明星好多啊fdsf</p>',title:'我是标题1',_id:6},
+                                                            {content:  '<p>我是第6篇gfdgfd文章 明星好多啊fdsf</p>',title:'我是标题1',_id:6}, 
      
                                                          ]
                                                          
                                                     }
-                                                        buildCoverPage();
+                                                        buildCoverPage(); 
                                                         buildContentPage(articles);
                                                         
                                                         var baraja = $( '#baraja-el' ).baraja();  
@@ -456,10 +454,12 @@ function AD()
                                                 {
                                                     oTag.style.left = (l -= 5) + 'px';
                                                 }
-                                                
-                                                 
-                                                    if(top > 0) {animation(create);}
-                                                    else  { 
+                                                                                               
+                                                if(top > 0) 
+                                                {
+                                                    animation(create);
+                                                }
+                                                else { 
                                                          addCloud(oTag);                                                         
                                                     }
                                             }  
@@ -512,44 +512,72 @@ function AD()
                                         var containerLi = document.createElement('li');
                                         var containerContent = document.createElement('div');
                                         containerContent.className = 'content-page';
-                                        $(containerContent).append(article.content);
+                                       /* <div class="article-title">
+                                     彭于晏一个特点暴露异性缘有多好!原来不是不结婚,而是太有魅力
+                                 </div>
+                                 <div class="article-text"></div>*/
+
+                                 article-box
+
+                                var box = document.createElement('div');
+                                box.className = 'article-box'
+                                var containertitle = document.createElement('div');
+                                var containerTxt = document.createElement('div');
+                                containertitle.className = 'article-title';
+                                containerTxt.className = 'article-text';
+                                $(containertitle).append(article.title);
+
+                                $(containerTxt).append(article.content);
+
+                                $(box).append(containertitle);
+                                $(box).append(containerTxt);
                                           
+                                var containerPb = document.createElement('div');
+                                var img = document.createElement('img');
+                                var pb = document.createElement('p');
+                                containerPb.className = 'publish';
+                                img.src = './image/publish.png';
+                                img.className = 'publish-img';
+                                pb.className = 'publish-text';
+                                pb.textContent = '发 布';
+                                containerPb.appendChild(img);
+                                containerPb.appendChild(pb);
+                                containerPb.onclick = function(e){
+                                    e.stopPropagation();
+                                    $('.books').hide(600,()=>{
+                                        $('.pbLoading').show();
+                                        /* SetPublish(article._id).then(()=>{
 
-                                                       var containerPb = document.createElement('div');
-                                                       var img = document.createElement('img');
-                                                       var pb = document.createElement('p');
-                                                       containerPb.className = 'publish';
-                                                       img.src = './image/publish.png';
-                                                       img.className = 'publish-img';
-                                                       pb.className = 'publish-text';
-                                                       pb.textContent = '发 布';
-                                                       containerPb.appendChild(img);
-                                                       containerPb.appendChild(pb);
-                                                       containerPb.onclick = function(e){
-                                                           e.stopPropagation();
-                                                           /* SetPublish(article.id).then(()=>{
+                                        }); */
+                                        setTimeout(() => {
+                                         var str = 'http://baijiahao.baidu.com/s?id=1640103312420732224';
+                                        $('#code').qrcode({ 
+                                                                width: 190,
+                                                                height:190,
+                                                                text: str
+                                                            });
+                                        document.getElementById('articleiframe').src = str;
+                                        $('.light').attr('src','./image/ligt2.jpg');
+                                        $('.pbLoading').hide();
+                                        $('.result').show();
 
-                                                           }); */
-                                                           alert(article.id);
+                                    }, 3000);
 
-                                                           $('.books').hide();
-                                                           var str = 'http://baijiahao.baidu.com/s?id=1640103312420732224';
-                                                           $('#code').qrcode({ 
-                                                            width: 190,
-                                                            height:190,
-                                                            text: str
-                                                        });
-                                                           document.getElementById('articleiframe').src = str;
-                                                           $('.light').attr('src','./image/ligt2.jpg')
-                                                           $('.result').show();
-                                                       } 
-                                                       containerContent.appendChild(containerPb);
-
-
-                                        containerLi.appendChild(containerContent);
-
-                                        $('#baraja-el').append(containerLi);
                                     });
+                                    
+                                         
+                                    
+                                     
+                                   
+                                } 
+                                containerContent.appendChild(box);
+
+                                containerContent.appendChild(containerPb);
+
+                                containerLi.appendChild(containerContent);
+
+                                $('#baraja-el').append(containerLi);
+                                });
                                 }                            
                                  
                             }
