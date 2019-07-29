@@ -192,7 +192,7 @@ jQuery.fn.reverse = [].reverse;
 					self._move2front( $( this ) );
 
 				} */
-				//debugger;
+				 /*
 				var screenW = window.screen.width;
 				var client = e.clientX || e.pageX;
 				if(client >= screenW/2)
@@ -201,7 +201,7 @@ jQuery.fn.reverse = [].reverse;
 				}else{
 					self._dispatch( self._navigate, 'prev' );
 				}
-				
+				*/
 
 			} ); 
 

@@ -50,22 +50,24 @@ function AD()
         var arr1 = [];
         var arr2 = [];
         var arr3 = [];
-var arr = [arr1,arr2,arr3];
+        var arr4 = [];
+
+var arr = [arr1,arr2,arr3,arr4];
         fetchPeoples().then((peoples)=>{ 
                 if(peoples && peoples.length)
                 {  
                     peoples.forEach((star)=>{
                             var images = star.imgs;
                             if(images && images.length)
-                            {
-                                images.forEach((img)=>{
+                            { 
+                                images.forEach((img,index)=>{
                                     var element =  {...item};
 
                                     element.id = star._id;
                                     element.name = star.name;
                                     element.ename = star.enName;
                                     element.topics = star.topicList;
-                                    element.img = img;
+                                    element.img =   './' + img;
                                     arr[index].push(element);
 
                                     /*if(arr1.some(a=>a.id == star._id))
@@ -87,7 +89,7 @@ var arr = [arr1,arr2,arr3];
                                     element.name = star.name;
                                     element.ename = star.enName;
                                     element.topics = star.topicList;
-                                    element.img = img;
+                                    element.img = './image/' + star.name + '/' + star.name + (index + 1) + '.jpg';
                                     arr[index].push(element);
                                     /*if(arr1.some(a=>a.id == star._id))
                                     {
@@ -101,7 +103,7 @@ var arr = [arr1,arr2,arr3];
                                 });
                             }
                     });
-                    _table =  [...arr1,...arr2,...arr3];
+                    _table =  [...arr1,...arr2,...arr3,...arr4];
 
                 }else{
                     for (let i = 0; i < 100; i++) {
@@ -227,7 +229,7 @@ var arr = [arr1,arr2,arr3];
                     var element = document.createElement( 'div' );
                     element.className = 'element';
                     element.index = i; 
-                    element.style.backgroundColor = 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';
+                    element.style.backgroundColor = 'rgba(0,100,225,' + ( Math.random() * 0.5 + 0.25 ) + ')';
  
                     //选择明星
                     element.onclick = function(e){ 
@@ -238,10 +240,15 @@ var arr = [arr1,arr2,arr3];
                             $('.left').hover(()=>{
                                  $('.go-btn').show();
                             },()=>{$('.go-btn').hide();})
+                            var pageTimer = {} ; //定义计算器全局变量
+ 
 
                             //返回键单击
                              $('.go-btn').click(()=>{
                                 clearCloud();
+                                $('.event .name').html('');    
+                                $('.event .ename').html('');  
+                                $('.event .ren').attr('src', '');   
                                 $('.container-circle .number').html(0); 
                                 $('.container-circle').css('backgroundImage', '');
                                 $('.container-circle').css('border', '2px solid');
@@ -249,6 +256,10 @@ var arr = [arr1,arr2,arr3];
                                 $('.event').hide(300);
                                 
                                 $('.people').show(800);
+                                for(var each in pageTimer){
+                                    clearInterval(pageTimer[each]);
+                                }
+                                User = {};
                              });
 
                              var ele = e.target;
@@ -258,12 +269,16 @@ var arr = [arr1,arr2,arr3];
                              var data = _table[index];
                              $('.event .name').html(data.name);    //显示中文名
                              $('.event .ename').html(data.ename);  //显示英文名
-                             $('.event .ren').attr('src', './image/' + data.name + 'event.jpg');   //显示图片
+                             $('.event .ren').attr('src', './image/' + data.name + '/' + data.name + 'event.jpg');   //显示图片
                              $('.loading-circle-1').show();
                              $('.loading-circle-2').show();
                              $('.loading-circle-3').show();
                              User = {...data};
-                               
+                              
+                             clearCloud();
+                             for(var each in pageTimer){
+                                clearInterval(pageTimer[each]);
+                            }
                              //启动字符云
                              initCloud();
                              var events = User.topics;
@@ -293,7 +308,7 @@ var arr = [arr1,arr2,arr3];
                                 function setTimer (index,left,num)
                                 {
                                     var time1 = 1000 + parseInt(Math.random() * 3000);
-                                    setTimeout(() => {
+                                    pageTimer['set' + index] = setTimeout(() => {
                                         if(events.length > 0)
                                         {
                                         var step = parseInt(Math.random() * 1000);
@@ -304,18 +319,17 @@ var arr = [arr1,arr2,arr3];
                                         num += step;
                                         if(num < max[index])
                                         {
-                                            var tempTimer = setInterval(() => {
+                                            pageTimer['timer' + index] = setInterval(() => {
                                             if(num1 < num)
                                             {
                                                 num1 += (10 +  parseInt(Math.random() * 1000));
                                                 $('.number' + index).html(num1);
                                             }else{
-
                                                 $('.number' + index).html(num);
-                                                clearInterval(tempTimer);
+                                                clearInterval(pageTimer['timer' + index]);
                                                 addTopics(index,left);
                                                 setTimer (index,left,num);
-                                            }
+                                              }
                                             }, 30);
                                         }else{
                                             $('.loading-circle-' + index).hide();
@@ -324,18 +338,16 @@ var arr = [arr1,arr2,arr3];
                                             $('.container-circle-' + index).css('border', 'none');
 
                                         }
-                                        
-                                                                                
-                                        
+                                                                                                                                                         
                                         }else{ 
-                                            
-                                            var tempTimer2 =  setInterval(() => {
+                                            //数字没有达到最小，继续随机增加
+                                            pageTimer['timerTmp' + index] =  setInterval(() => {
                                                     if(num < min[index])
                                                     {
                                                         num += (1000 +  parseInt(Math.random() * 1000));
                                                     $('.number' + index).html(num);
                                                     }else{    
-                                                    clearInterval(tempTimer2); 
+                                                    clearInterval(pageTimer['timerTmp' + index]); 
                                                     $('.loading-circle-' + index).hide();
                                                     var bgurl = "url('./image/loadingCirclebg.png')";
                                                     $('.container-circle-' + index).css('backgroundImage', bgurl);
@@ -375,16 +387,16 @@ var arr = [arr1,arr2,arr3];
 
                                             oTag.onclick = function(){
                                                 User.selectedTopic = txt;
-
-                                                console.log(User);
+                                                for(var each in pageTimer){
+                                                    clearInterval(pageTimer[each]);
+                                                }
+                                                //console.log(User);
                                                 //选择话题事件
                                                 Loading.startLoading();
-
-                                                
-                                                
+                                                                                         
                                                 fetchArticles(User.name,User.selectedTopic).then((articls)=>{
                                                     var articles = [];
-                                                    console.log(articls);
+                                                    //console.log(articls);
                                                     if(articls && articls.length > 0)
                                                     {
                                                         articles = [...articls];
@@ -414,7 +426,7 @@ var arr = [arr1,arr2,arr3];
                                                     }
                                                         buildCoverPage(); 
                                                         buildContentPage(articles);
-                                                        
+                                                        $('#baraja-el li .article-text img').parent().css('text-align','center');
                                                         var baraja = $( '#baraja-el' ).baraja();  
                                                         // navigation
                                                         $( '#nav-prev' ).on( 'click', function( event ) {
@@ -434,7 +446,7 @@ var arr = [arr1,arr2,arr3];
                                                             $('.event').hide();
                                                             $('.books').show(600);
                                                             $('.light').show();
-                                                        },3000);
+                                                        },  (5 + Math.random() * 3) * 1000);
                                                 })
                                                 
                                             }
@@ -471,9 +483,9 @@ var arr = [arr1,arr2,arr3];
                                 var containerLi = document.createElement('li');
                                 var containerPerson = document.createElement('div');
                                 containerPerson.className = 'person-page';
-                                var url = "url('./image/"+User.name+"cover.jpg')";
+                                var url = "url('./image/" + User.name + '/' + data.name + "cover.jpg')";
                                 containerPerson.style.backgroundImage= url;
-                                userportrait.src = './image/'+User.name+'portrait.png';
+                                userportrait.src = './image/' + User.name + '/' + data.name + 'portrait.png';
                                 var imgleft = document.createElement('img');
                                 var imgright = document.createElement('img');
                                 var divInfo = document.createElement('div');
@@ -546,22 +558,26 @@ var arr = [arr1,arr2,arr3];
                                     e.stopPropagation();
                                     $('.books').hide(600,()=>{
                                         $('.pbLoading').show();
-                                        /* SetPublish(article._id).then(()=>{
+                                         SetPublish(article._id).then((res)=>{
+                                               setTimeout(() => {
+                                                var str = 'http://baijiahao.baidu.com/s?id=1640103312420732224';
+                                                if(res)
+                                                {
+                                                    str  = res;
+                                                }
+                                                $('#code').qrcode({ 
+                                                                        width: 190,
+                                                                        height:190,
+                                                                        text: str
+                                                                    });
+                                                document.getElementById('articleiframe').src = str;
+                                                $('.light').attr('src','./image/ligt2.png');
+                                                $('.pbLoading').hide();
+                                                $('.result').show();
 
-                                        }); */
-                                        setTimeout(() => {
-                                         var str = 'http://baijiahao.baidu.com/s?id=1640103312420732224';
-                                        $('#code').qrcode({ 
-                                                                width: 190,
-                                                                height:190,
-                                                                text: str
-                                                            });
-                                        document.getElementById('articleiframe').src = str;
-                                        $('.light').attr('src','./image/ligt2.jpg');
-                                        $('.pbLoading').hide();
-                                        $('.result').show();
-
-                                    }, 3000);
+                                               }, 4000);
+                                        }); 
+                                        
 
                                     });
                                     
@@ -578,17 +594,12 @@ var arr = [arr1,arr2,arr3];
 
                                 $('#baraja-el').append(containerLi);
                                 });
-                                }                            
+                            }                            
                                  
                             }
                          });
                          
-                        //Loading.startLoading();
-            
-                        //setTimeout(()=>{
-                            //document.getElementById( 'container' ).style.display = 'block';
-                            //Loading.stopLoading();
-                        //},5000);
+                         
                     }
                     
 
@@ -729,9 +740,14 @@ var arr = [arr1,arr2,arr3];
 
             can.fillStyle = setcolor();
 
-            var words = Array(256).join("1").split("");
+            //var words = Array(256).join("1").split("");
+            var words = [] // Array(256);
+
             //设置一个包含256个空元素的数组，join("1")用来把数组里的元素拼接成字符串，split("")过滤掉数组里的空元素
-            
+             for (let index = 0; index < 256; index++) {
+                words.push(parseInt(Math.random() * 100 + ''));
+                 
+             }
             clearInterval(loadingTimer);
             loadingTimer = setInterval(draw,50);
 
@@ -739,12 +755,14 @@ var arr = [arr1,arr2,arr3];
                 //can.fillRect()画一个实心矩形:坐标x，坐标y，矩形宽，举行高
                 can.fillStyle='rgba(0,0,0,0.05)';
                 can.fillRect(0,0,w,h);
-                can.fillStyle=setcolor();
+                can.fillStyle=setcolor(); 
                 words.map(function(y,n){
                     text=String.fromCharCode(Math.ceil(65+Math.random()*57)); //转换为键盘上值
-                    x = n*10;
+                    x = n*15;
                     can.fillText(text,x,y)
-                    words[n]=( y > 758 + Math.random()*484 ? 0:y+10 );
+                    //words[n]=( y > 758 + Math.random()*484 ? 0:y + 10 );
+                    words[n]=( y > 758 + Math.random()*484 ? 0 : y + (1 + parseInt(Math.random() * 40)) );
+
                 });//数组元素的一个映射            
     
             }  
