@@ -1,0 +1,14 @@
+CACHE MANIFEST
+# version 2019073011340006
+./style/styles.css
+./style/swiper.min.css
+./style/index.css
+./script/babel.min.js
+./script/CSS3DRenderer.js
+
+./image
+./starimg
+
+NETWORk:
+index.html  
+/api

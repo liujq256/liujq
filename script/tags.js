@@ -201,7 +201,6 @@ function positionAll()
 	var aTmp=[];
 	var oFragment=document.createDocumentFragment();
 	
-	//�������
 	for(i=0;i<aA.length;i++)
 	{
 		aTmp.push(aA[i]);

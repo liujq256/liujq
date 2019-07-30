@@ -129,7 +129,7 @@ a {
     animation: rotation 1.6s linear infinite;
 }
 .loading-circle-3{
-    animation: rotation 1.4s linear infinite;
+    animation: rotation 2.4s linear infinite;
 }
 .container-circle{
     position: absolute;
@@ -223,7 +223,7 @@ a {
 .element:hover {
 	box-shadow: 0px 0px 12px rgba(0,132,255,0.75);
 	border: 1px solid rgba(127,202,255,0.75);
-	opacity: 1;
+	/* opacity: 1; */
 }
 
 	.element .number {
@@ -328,7 +328,7 @@ button:active {
     text-align: right;
     position: absolute;
     left: -50px;
-    bottom: 0px;
+    bottom: 40px;
     z-index: 11;
 }
 .topic-title {
@@ -387,7 +387,7 @@ button:active {
   .info-box {
       position: absolute;
       left: 50px;
-	  bottom: 150px;
+	  bottom: 130px;
 	  text-align: left;
   }
   .person-name2 {
@@ -595,9 +595,9 @@ ul.baraja-container li {
 #articleiframe{
 	position: relative;
 	width: 82%;
-    top: 60px;
+    top: 47px;
     left: 105px;
-    height: 660px;
+    height: 700px;
 	border: none; 
 }
 

@@ -1,0 +1,10 @@
+CACHE MANIFEST
+# version 2019073011340003
+ 
+./style/*
+./image/*
+./starimg/*
+./script/*.js
+
+NETWORk:  
+*
