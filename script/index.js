@@ -20,8 +20,7 @@ var User = {
     selectedTopic:'',
 
 };
-
-var EventIndex = 0;
+ 
 var pageTimer = {} ; //定义计算器全局变量
 function AD()
 {
@@ -81,22 +80,19 @@ function AD()
             
                 var button = document.getElementById( 'sphere' );
                 button.addEventListener( 'click', function ( event ) {           
-                    transform( targets.sphere, 2000 );
-                    EventIndex = 0;
+                    transform( targets.sphere, 2000 ); 
                 }, false );
             
                 var button = document.getElementById( 'helix' );
                 button.addEventListener( 'click', function ( event ) {
             
-                    transform( targets.helix, 2000 );
-                    EventIndex = 1;
+                    transform( targets.helix, 2000 ); 
                 }, false );
             
                 var button = document.getElementById( 'grid' );
                 button.addEventListener( 'click', function ( event ) {
             
-                    transform( targets.grid, 2000 );
-                    EventIndex = 2;
+                    transform( targets.grid, 2000 ); 
                 }, false );
               
                 transform( targets.helix, 2000 );    //螺旋转动
@@ -310,7 +306,6 @@ function AD()
             function selectFun(e)
             { 
                     $('.people').hide(800); 
-
                     var elem = $(e.target).closest('.element');
                     var index = elem[0].index; 
                     var data = _table[index];                    
