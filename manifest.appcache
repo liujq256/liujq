@@ -1,14 +1,43 @@
 CACHE MANIFEST
-# version 2019073011340006
+# version 201907301549001
+
+CACHE:
 ./style/styles.css
 ./style/swiper.min.css
 ./style/index.css
+
 ./script/babel.min.js
 ./script/CSS3DRenderer.js
+./script/jquery.baraja.js
+./script/jquery.min.js
+./script/jquery.qrcode.min.js
+./script/modernizr.custom.79639.js
+./script/polyfill.min.js
+./script/service.js
+./script/tags.js
+./script/three.min.js
+./script/TrackballControls.js
+./script/tween.min.js  
 
-./image
-./starimg
+./image/favicon.ico
+./image/light2.png
 
-NETWORk:
-index.html  
-/api
+./image/1.png
+./image/2.png
+./image/3.png
+./image/01.png
+./image/02.png
+./image/03.png
+./image/starbg.jpg
+./image/light.png
+./image/logo.png
+./image/f.png
+
+
+
+
+#api/AD/getstars
+
+NETWORK:
+*
+FALLBACK:

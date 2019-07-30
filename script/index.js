@@ -509,6 +509,7 @@ function AD()
         Loading.startLoading();
                                                     
         fetchArticles(User.name,User.selectedTopic).then((articls)=>{
+            clearCloud();
             var articles = [];
             //console.log(articls);
             if(articls && articls.length > 0)
