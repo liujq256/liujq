@@ -308,7 +308,7 @@ jQuery.fn.reverse = [].reverse;
 				
 			this._setTransition( $item, 'transform', this.options.speed, this.options.easing );
 
-			this._applyTransition( $item, { transform : 'translate(' + translation + 'px) rotate(' + rotation + 'deg)' }, function() {
+			this._applyTransition( $item, { transform : 'translate(' + (translation * -1) + 'px) rotate(' + (rotation * -1) + 'deg)' }, function() {
 
 				$item.off( self.transEndEventName );
 				self._updateStack( $item, dir );

@@ -26,7 +26,8 @@ a {
     width: 100%;
     height: 45px;
     line-height: 45px;
-    position: relative;
+	position: relative;
+	cursor: pointer;
 }
 .logo {
     width: 138px;
@@ -62,8 +63,11 @@ a {
 .go-btn { 
 	cursor: pointer;
 	display: none;
+	opacity: 0.6;
 }
- 
+.go-btn:hover {  
+	opacity: 1;
+}
 .name {
     font-size:68px;
     font-weight:bold;
@@ -387,7 +391,7 @@ button:active {
   .info-box {
       position: absolute;
       left: 50px;
-	  bottom: 130px;
+	  bottom: 80px;
 	  text-align: left;
   }
   .person-name2 {
@@ -403,8 +407,9 @@ button:active {
   }
   
   .article-box {
-	  width: 60%;
-	  margin-left: 20%;
+	  width: 100%;
+	  /* margin-left: 20%; */
+	  padding: 10px 200px;
       height: 100%;
       color: #fff;
       overflow-y: scroll;
@@ -425,9 +430,9 @@ button:active {
       text-align: center;
   }
   .article-text p {
-    font-size:12px;
+    font-size:16px;
     font-weight:400;
-    line-height:17px;
+    line-height:22px;
     text-align: left;
     text-indent: 2em;
     margin-bottom: 10px;
@@ -455,8 +460,8 @@ button:active {
       bottom: 80px;
       z-index: 12;
       text-align: center;
-      cursor: pointer;
-  }
+	  cursor: pointer; 
+  } 
   .publish-img {
       width: 34px;
       height: 34px;
@@ -543,6 +548,7 @@ ul.baraja-container li {
 	left: 60%;
 	bottom: 111px;
 	margin-left: 228px;
+	display:none;
 }
  
 .iphone-box {
@@ -553,7 +559,7 @@ ul.baraja-container li {
 	position: absolute;
 	left: 50%;
 	bottom: 60px;
-	margin-left: -750px;
+	margin-left: -600px;
 }
  
 

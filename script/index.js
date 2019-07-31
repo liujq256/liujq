@@ -332,7 +332,7 @@ function AD()
                     $('.event .ren').attr('src', '');   
                     $('.container-circle .number').html(0); 
                     $('.container-circle').css('backgroundImage', '');
-                    $('.container-circle').css('border', '2px solid');
+                    $('.container-circle').css('border', '2px solid rgba(215,215,215,0.3)');
                     $('.event').hide(300);                               
                     $('.people').show(800);
                     //关闭所有定时器
@@ -416,11 +416,14 @@ function AD()
                                 }
                             }, 30);
                         }else{
-                            $('.loading-circle-' + index).hide();
+                            $('.loading-circle-' + index).hide(600);
+                            $('.container-circle-' + index).css('border', 'none');
+                            $('.container-circle-' + index).css('opacity', '0.1');
                             var bgurl = "url('./image/loadingCirclebg.png')"; 
                             $('.container-circle-' + index).css('backgroundImage', bgurl);
-                            $('.container-circle-' + index).css('border', 'none');
+                            
 
+                            $('.container-circle-' + index).animate({opacity:1},600);
                         }
                                                                                                                                             
                         }else{ 
@@ -432,10 +435,18 @@ function AD()
                                     $('.number' + index).html(num);
                                     }else{    
                                     clearInterval(pageTimer['timerTmp' + index]); 
-                                    $('.loading-circle-' + index).hide();
-                                    var bgurl = "url('./image/loadingCirclebg.png')";
-                                    $('.container-circle-' + index).css('backgroundImage', bgurl);
-                                    $('.container-circle-' + index).css('border', 'none');
+                                        $('.loading-circle-' + index).hide(600);
+                                        //$('.container-circle-' + index).css('display','none');
+
+                                        $('.container-circle-' + index).css('border', 'none');
+                                        $('.container-circle-' + index).css('opacity', '0.1');    
+                                        var bgurl = "url('./image/loadingCirclebg.png')"; 
+                                        $('.container-circle-' + index).css('backgroundImage', bgurl);
+                                        
+
+                                        $('.container-circle-' + index).animate({opacity:1},600);
+                                        
+                                    
                                     }
                                 }, 30);
                             
@@ -657,18 +668,17 @@ function AD()
         $('.books').hide(600,()=>{
             $('.pbLoading').show();
             SetPublish(id).then((res)=>{
-                debugger;
                 setTimeout(() => {
                 var str = 'http://baijiahao.baidu.com/s?id=1640103312420732224';
                 if(res)
                 {
                     str  = res;
                 }
-                $('#code').qrcode({ 
+                /* $('#code').qrcode({ 
                                     width: 190,
                                     height:190,
                                     text: str
-                                });
+                                }); */
                 document.getElementById('articleiframe').src = str;
                 $('.light').attr('src','./image/ligt2.png');
                 $('.pbLoading').hide(600);
@@ -780,6 +790,10 @@ function toUtf8(str) {
 $(function(){
      var ad = new AD();
      ad.PeopleTask(); 
+
+     $('.topbar').click(function(){
+          document.location.href = document.location;
+     });
 })
 
 
