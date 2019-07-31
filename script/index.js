@@ -80,22 +80,22 @@ function AD()
             
                 var button = document.getElementById( 'sphere' );
                 button.addEventListener( 'click', function ( event ) {           
-                    transform( targets.sphere, 2000 ); 
+                    transform( targets.sphere, 1000 ); 
                 }, false );
             
                 var button = document.getElementById( 'helix' );
                 button.addEventListener( 'click', function ( event ) {
             
-                    transform( targets.helix, 2000 ); 
+                    transform( targets.helix, 1000 ); 
                 }, false );
             
                 var button = document.getElementById( 'grid' );
                 button.addEventListener( 'click', function ( event ) {
             
-                    transform( targets.grid, 2000 ); 
+                    transform( targets.grid, 1000 ); 
                 }, false );
               
-                transform( targets.helix, 2000 );    //螺旋转动
+                transform( targets.helix, 1000 );    //螺旋转动
 
                 window.addEventListener( 'resize', onWindowResize, false );
             
@@ -691,7 +691,7 @@ function AD()
     });
     }
     //黑客帝国loading
-    var Loading =   
+    this.Loading =   
      {
         startLoading  : function()
         {
@@ -790,7 +790,7 @@ function toUtf8(str) {
 $(function(){
      var ad = new AD();
      ad.PeopleTask(); 
-
+     //ad.Loading.startLoading();
      $('.topbar').click(function(){
           document.location.href = document.location;
      });

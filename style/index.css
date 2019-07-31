@@ -13,6 +13,10 @@ a {
 	color: #ffffff;
 }
   
+.event, .books , .pbLoading, .result{
+	display: none;
+}
+
 
 .main {
     width: 100vw;
@@ -201,9 +205,7 @@ a {
 }
 
  
-.event, .books , .pbLoading, .result{
-	display: none;
-}
+
 #menu {
 	position: absolute;
 	bottom: 20px;
