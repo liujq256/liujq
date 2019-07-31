@@ -316,6 +316,12 @@ function AD()
     }
     //选定明星后展示明星相关话题
     var events = function(data){
+                //关闭所有定时器
+                for(var each in pageTimer){
+                    clearInterval(pageTimer[each]);
+                }
+              putBgColor('event');
+              settBgOpacity('event',1,2);
              //返回键显现
                 $('.left').hover(()=>{
                          $('.go-btn').show();
@@ -346,24 +352,21 @@ function AD()
                 $('.event .name').html(data.name);    //显示中文名
                 $('.event .ename').html(data.ename);  //显示英文名
                 $('.event .ren').attr('src', './image/' + data.name + '/' + data.name + 'event.jpg');   //显示图片
-                $('.loading-circle-1').show();
-                $('.loading-circle-2').show();
-                $('.loading-circle-3').show();
+                $('.loading-circle-1').hide();
+                $('.loading-circle-2').hide();
+                $('.loading-circle-3').hide();
                 User = {...data};
                 
                 
-                //关闭所有定时器
-                for(var each in pageTimer){
-                    clearInterval(pageTimer[each]);
-                }
+                
                 
                 //清理停止字符云
-                clearCloud();
+                //clearCloud();
                 //启动字符云
-                initCloud();
+                //initCloud();
                 var events = User.topics;
                 startAnalyzeTopic(User.name);
-                
+                buildTopic(events);
             //查询百度话题量，设置最低限及最高限，分析有哪些话题
             function startAnalyzeTopic(name)
             {
@@ -379,85 +382,63 @@ function AD()
 
                     var max = [0,max1,max2,max3];
                     var min = [0,min1,min2,min3];
-
-                    var len = events.length;
-                    var count = 1;
-                    if(len % 3)
+                    var finish = [0,0,0,0]
+                    function setTimer (index,num)
                     {
-                        count = parseInt(len/3,10) + 1 ;
-                    }else{
-                        count = parseInt(len/3,10);
-                    }                               
-                
-                    function setTimer (index,left,num)
-                    {
-                        var time1 = 1000 + parseInt(Math.random() * 3000);
+                        var time1 = parseInt(Math.random() * 1000);
                         pageTimer['set' + index] = setTimeout(() => {
-                        if(events.length > 0)
-                        {
-                        var step = parseInt(Math.random() * 1000);
-                                                                    
-                            step = parseInt(min[index]/count) + step;
-                        
-                        var num1 = num;
-                        num += step;
-                        if(num < max[index])
-                        {
-                            pageTimer['timer' + index] = setInterval(() => {
-                            if(num1 < num)
-                            {
-                                num1 += (10 +  parseInt(Math.random() * 1000));
-                                $('.number' + index).html(num1);
-                            }else{
-                                $('.number' + index).html(num);
-                                clearInterval(pageTimer['timer' + index]);
-                                addTopics(index,left);
-                                setTimer (index,left,num);
-                                }
-                            }, 30);
-                        }else{
-                            $('.loading-circle-' + index).hide(600);
-                            $('.container-circle-' + index).css('border', 'none');
-                            $('.container-circle-' + index).css('opacity', '0.1');
-                            var bgurl = "url('./image/loadingCirclebg.png')"; 
-                            $('.container-circle-' + index).css('backgroundImage', bgurl);
-                            
-
-                            $('.container-circle-' + index).animate({opacity:1},600);
-                        }
-                                                                                                                                            
-                        }else{ 
-                            //数字没有达到最小，继续随机增加
-                            pageTimer['timerTmp' + index] =  setInterval(() => {
-                                    if(num < min[index])
-                                    {
-                                        num += (1000 +  parseInt(Math.random() * 1000));
-                                    $('.number' + index).html(num);
-                                    }else{    
-                                    clearInterval(pageTimer['timerTmp' + index]); 
-                                        $('.loading-circle-' + index).hide(600);
-                                        //$('.container-circle-' + index).css('display','none');
-
-                                        $('.container-circle-' + index).css('border', 'none');
-                                        $('.container-circle-' + index).css('opacity', '0.1');    
-                                        var bgurl = "url('./image/loadingCirclebg.png')"; 
-                                        $('.container-circle-' + index).css('backgroundImage', bgurl);
-                                        
-
-                                        $('.container-circle-' + index).animate({opacity:1},600);
-                                        
+                         
+                                var step = parseInt( max[index] / 2 - Math.random() * 3000);
+                                                                            
                                     
+                                var num1 = num;
+                                num += step;
+                                if(num < max[index])
+                                {
+                                    pageTimer['timer' + index] = setInterval(() => {
+                                        if(num1 < num)
+                                        {
+                                            num1 += (100 +  parseInt(Math.random() * 5000));
+                                            $('.number' + index).html(num1);
+                                        }else{
+                                            $('.number' + index).html(num);
+                                            clearInterval(pageTimer['timer' + index]); 
+                                            setTimer (index,num);
+                                            }
+                                        }, 30);
+                                }else{
+                                    
+                                    if(num1 < min[index])
+                                    {
+                                        num = min[index] +  parseInt(Math.random() * 10000);
+                                        $('.number' + index).html(num);
                                     }
-                                }, 30);
-                            
-                        
-                        }
-                    }, time1);
-                }
+                                    finish[index] = 1;
+                                    clearInterval(pageTimer['timer' + index]);
+                                    var sum = 0
+                                    finish.forEach(ele => {
+                                        sum += ele;
+                                    });
 
-                setTimer(1,40,0);
-                setTimer(2,300,0);
-                setTimer(3,600,0);
+                                    if(sum == 3)
+                                    {
+                                        $('.loading-circle').show(600); 
+                                        settBgOpacity('event',2,2);
+                                        TopicShow(()=>{
+                                            settBgOpacity('event',3,2);
+                                            $('.loading-circle').hide(600); 
+
+                                        })
+                                    }
+                                }
+                                                                                                                                                    
+                                
+                            }, time1);
+                       }
+ 
+                setTimer(1,0);
+                setTimer(2,0);
+                setTimer(3,0);
                 })
             }
 
@@ -795,6 +776,164 @@ $(function(){
           document.location.href = document.location;
      });
 })
+
+function settBgOpacity(obj,step,Allstep)
+{
+        
+          var len = $('.'+ obj + ' .pointContainer .point').length;
+      	  
+      	  var _len = parseInt(len / Allstep);
+      	 
+      	  $('.'+ obj + ' .pointContainer .point').each((index,item)=>{
+            if(index > (step - 1) * _len)
+            {
+                $(item).css({'opacity':'0.1'}); 
+            }else{
+                $(item).css({'opacity':'1'});
+            }            
+          })
+          var t = (step -1) * _len;
+          clearInterval(pageTimer['point']);
+
+          pageTimer['point'] = setInterval(function(){
+                if(t < step * _len)
+                {
+                    $('.'+ obj + ' .pointContainer .point').eq(t).css({'opacity':'1'});
+                    t++;
+                }else{
+                    t = (step -1) * _len;
+                    $('.'+ obj + ' .pointContainer .point:gt('+ t +')').css({'opacity':'0.1'});
+                }
+                
+                 
+          },30);
+
+          $('.'+ obj + ' .tagContainer .nodetitle').each((index,item)=>{
+            if(index < step)
+            {
+                $(item).css({'opacity':'1'});
+            }else{
+                $(item).css({'opacity':'0.1'});
+            }
+          
+      })
+       
+}
+
+function putBgColor(obj)
+{
+       var colors = ['#2f71ff','#ffb710','#e44335','#2dba52'];
+	   var _colors = [colorConversion(colors[0]),colorConversion(colors[1]),colorConversion(colors[2]),colorConversion(colors[3]),]
+      
+      	var len = $('.pointContainer .point').length;
+      	var _len = parseInt(len / 4);
+      	var colorIndex = 1;
+      	var initcolor = _colors[0];
+      	var toColor = _colors[colorIndex];
+         
+		var _step=10;
+		var _R_step=parseInt(Math.abs(initcolor[0]-toColor[0])/_len); //R的增减步长
+		var _G_step=parseInt(Math.abs(initcolor[1]-toColor[1])/_len); //G的增减步长
+		var _B_step=parseInt(Math.abs(initcolor[2]-toColor[2])/_len); //B的增减步长 
+      	$('.'+ obj + ' .pointContainer .point').each((index,item)=>{
+      		  if(index > 0 && index%_len == 0 && colorIndex < _colors.length -1)
+      		  {
+      		  	    initcolor = _colors[colorIndex];
+					colorIndex++;
+					toColor = _colors[colorIndex]; 
+					_R_step=parseInt(Math.abs(initcolor[0]-toColor[0])/_len); //R的增减步长
+		 			_G_step=parseInt(Math.abs(initcolor[1]-toColor[1])/_len); //G的增减步长
+		 			_B_step=parseInt(Math.abs(initcolor[2]-toColor[2])/_len); //B的增减步长
+		 			console.log(initcolor);
+		 			 
+      		  } 
+              $(item).css({'background-color':'rgb('+initcolor[0]+','+initcolor[1]+','+initcolor[2]+')'});
+             initcolor = getColor(index+1 ,initcolor,toColor,_R_step,_G_step,_B_step);
+             
+      	})
+       
+}
+function colorConversion(code){
+    var len=code.length;
+    var f=new Array();
+    f['0']=0;
+    f['1']=1;
+    f['2']=2;
+    f['3']=3;
+    f['4']=4;
+    f['5']=5;
+    f['6']=6;
+    f['7']=7;
+    f['8']=8;
+    f['9']=9;
+    f['A']=10;
+    f['B']=11;
+    f['C']=12;
+    f['D']=13;
+    f['E']=14;
+    f['F']=15;
+    code=code.toLocaleUpperCase();//转换为大写
+    var s=code.substr(0,1);
+    if(s=='#'){
+        code=code.substr(1,6);
+    }
+    var r=f[code[0]]*16+f[code[1]];
+    var g=f[code[2]]*16+f[code[3]];
+    var b=f[code[4]]*16+f[code[5]];
+    return [r,g,b];
+}
+
+function getColor(_step,_thisRGB,_toRGB,_R_step,_G_step,_B_step){
+   var r=_step==1?_thisRGB[0]:(_thisRGB[0]>_toRGB[0] ? _thisRGB[0] -_R_step :_thisRGB[0] + _R_step);
+    var g=_step==1?_thisRGB[1]:(_thisRGB[1]>_toRGB[1] ? _thisRGB[1] - _G_step :_thisRGB[1] + _G_step);
+    var b=_step==1?_thisRGB[2]:(_thisRGB[2]>_toRGB[2] ? _thisRGB[2] - _B_step :_thisRGB[2] + _B_step);
+
+    return [r,g,b]
+
+}
+
+function buildTopic(topics)
+{
+     if(topics && topics.length > 0)
+     {
+          topics.forEach((item)=>{
+                var li = document.createElement('li');
+                li.style.color = setcolor();
+                var fs = 12 + parseInt(Math.random() * 20);
+                var pl = 3 + parseInt(Math.random() * 10);
+                var pr = 3 + parseInt(Math.random() * 10);
+
+                li.style.fontSize = fs + 'px';
+                li.style.paddingLeft =  pl + 'px';
+                li.style.paddingRight=  pr + 'px';
+                //li.style.lineHeight =  fs + 10 + 'px';
+
+                li.innerHTML = item;
+                $('#tagsList .topicContainer').append(li);
+          });
+     }
+}
+function TopicShow(callback)
+{
+    $('#tagsList .topicContainer').animate({'opacity':1},2000)
+
+    var t = 0;
+    var len = $('#tagsList .topicContainer li').length;
+    pageTimer['topic'] = setInterval(()=>{
+        if(t < len)
+        {
+            $('#tagsList .topicContainer li').eq(t).css('opacity',1);
+            t++;
+        }else{
+               clearInterval(pageTimer['topic']);
+               callback && callback(); 
+        }
+        
+    },100);
+     
+    
+}
+
 
 
 
