@@ -657,6 +657,7 @@ function AD()
         $('.books').hide(600,()=>{
             $('.pbLoading').show();
             SetPublish(id).then((res)=>{
+                debugger;
                 setTimeout(() => {
                 var str = 'http://baijiahao.baidu.com/s?id=1640103312420732224';
                 if(res)

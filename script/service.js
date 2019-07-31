@@ -1,4 +1,4 @@
-var HOST = "http://192.168.210.158:1001/";
+var HOST = "http://192.168.210.158:1031/";
 //var HOST_img = "http://192.168.210.158:1032/";
 
 var ADGetPeoplesUrl = 'api/AD/getstars';

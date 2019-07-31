@@ -126,10 +126,10 @@ a {
     animation: rotation 0.8s linear infinite;
 }
 .loading-circle-2{
-    animation: rotation 1.6s linear infinite;
+    animation: rotation 1.4s linear infinite;
 }
 .loading-circle-3{
-    animation: rotation 2.4s linear infinite;
+    animation: rotation 1s linear infinite;
 }
 .container-circle{
     position: absolute;
