@@ -13,6 +13,7 @@ var item = {
      id:''
 };
 var User = { 
+    img:'',
     name:'',
     ename: '', 
     id:'',
@@ -320,42 +321,45 @@ function AD()
                 for(var each in pageTimer){
                     clearInterval(pageTimer[each]);
                 }
+               User = {...data};
+               var events = User.topics;
               putBgColor('event');
-              settBgOpacity('event',1,2);
+              settBgOpacity('event',1,2); 
+              buildTopic(events,Books);
+
              //返回键显现
                 $('.left').hover(()=>{
                          $('.go-btn').show();
                        },
                        ()=>{$('.go-btn').hide();})
 
-           
-
             //返回键单击
                 $('.go-btn').click(()=>{
-                    clearCloud();
-                    $('.event .name').html('');    
-                    $('.event .ename').html('');  
-                    $('.event .ren').attr('src', '');   
-                    $('.container-circle .number').html(0); 
-                    $('.container-circle').css('backgroundImage', '');
-                    $('.container-circle').css('border', '2px solid rgba(215,215,215,0.3)');
-                    $('.event').hide(300);                               
-                    $('.people').show(800);
+                    //clearCloud();
                     //关闭所有定时器
                     for(var each in pageTimer){
                         clearInterval(pageTimer[each]);
                     }
                     User = {};
+                    $('.event .name').html('');    
+                    $('.event .ename').html('');  
+                    $('.event .ren').attr('src', '');   
+                    $('.container-circle .number').html(0); 
+                    //$('.container-circle').css('backgroundImage', '');
+                    //$('.container-circle').css('border', '2px solid rgba(215,215,215,0.3)');
+                    TopicClear();
+                    $('.event').hide(300);                               
+                    $('.people').show(800);
+                    $('.loading-circle').hide();
+                    
                 });
 
                  
                 $('.event .name').html(data.name);    //显示中文名
                 $('.event .ename').html(data.ename);  //显示英文名
                 $('.event .ren').attr('src', './image/' + data.name + '/' + data.name + 'event.jpg');   //显示图片
-                $('.loading-circle-1').hide();
-                $('.loading-circle-2').hide();
-                $('.loading-circle-3').hide();
-                User = {...data};
+                $('.loading-circle').hide();
+                
                 
                 
                 
@@ -364,13 +368,13 @@ function AD()
                 //clearCloud();
                 //启动字符云
                 //initCloud();
-                var events = User.topics;
+                
                 startAnalyzeTopic(User.name);
-                buildTopic(events);
+                
             //查询百度话题量，设置最低限及最高限，分析有哪些话题
-            function startAnalyzeTopic(name)
-            {
-                fetchCount(name).then((count)=>{
+               function startAnalyzeTopic(name)
+               {
+                 fetchCount(name).then((count)=>{
                     var k = parseInt(count);
                     var max1 = k;
                     var max2 = k * 0.5;
@@ -389,8 +393,7 @@ function AD()
                         pageTimer['set' + index] = setTimeout(() => {
                          
                                 var step = parseInt( max[index] / 2 - Math.random() * 3000);
-                                                                            
-                                    
+                                                                                                               
                                 var num1 = num;
                                 num += step;
                                 if(num < max[index])
@@ -496,10 +499,13 @@ function AD()
         User.selectedTopic = txt;
         for(var each in pageTimer){
             clearInterval(pageTimer[each]);
-        } 
-        //选择话题事件
-        Loading.startLoading();
-                                                    
+        }  
+        Loading.startLoading(()=>{
+            $('.event').hide();
+        });       
+
+        //Loading.suspend()
+                                                  
         fetchArticles(User.name,User.selectedTopic).then((articls)=>{
             clearCloud();
             var articles = [];
@@ -507,34 +513,14 @@ function AD()
             if(articls && articls.length > 0)
             {
                 articles = [...articls];
-            }else{
-                    articles = [
-                    {content: '<p>我是第一篇文章 明星好多啊</p>',title:'我是标题1',_id:1},
-                    {content: '<p>我是第2篇文章 明星好多啊</p>',title:'我是标题12',_id:2},
-                    {content: '<p>我是第3篇文章 明星好多啊</p>',title:'我是标题13',_id:3},
-                    {content: '<p>我是第4篇文章 明星好多啊</p>',title:'我是标题14',_id:4},
-                    {content: '<p>我是第5篇文章 明星好多啊</p>',title:'我是标题15',_id:5},
-                    {content:  '<p>我是第6篇文章 明星好多啊</p>',title:'我是标题16',_id:6},
-                    {content:  '<p>我是第6篇文章 明星好多啊</p>',title:'我是标题17',_id:6},
-                    {content:  '<p>我是第6篇文章 明星好多啊</p>',title:'我是标题18',_id:6},
-                    {content:  '<p>我是第6篇文章 明星好多啊ds</p>',title:'我是标题19',_id:6},
-                    {content:  '<p>我是第6篇greg文章 明星好多啊dsdd</p>',title:'我是标题10',_id:6},
-                    {content:  '<p>我是第6篇文章 明星好多啊fdsf</p>',title:'我是标题111',_id:6},
-                    {content:  '<p>我是第6篇ggegre文章 明星好多啊fdsfds</p>',title:'我是标题112',_id:6},
-                    {content:  '<p>我是第6篇文章 明星好多啊fdsfsd</p>',title:'我是标题113',_id:6},
-                    {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',title:'我是标题114',_id:6},
-                    {content:  '<p>我是第6篇文章 明星好多啊fdsfds</p>',title:'我是标题115',_id:6},
-                    {content:  '<p>我是第6篇文erger章 明星好多啊fdsfds</p>',title:'我是标题116',_id:6},
-                    {content:  '<p>我是第6篇greg文章 明星好多啊fdsf</p>',title:'我是标题117',_id:6},
-                    {content:  '<p>我是第6篇gfdgfd文章 明星好多啊fdsf</p>',title:'我是标题118',_id:6}, 
+            } 
+            makeProcess('#loadingContainer',['分析热门话题', '选取文章模板','精确匹配素材','合成文章']); 
+            putBgColor('loadingContainer');                      
 
-                    ]
-                    
-            }
-                buildCoverPage(); 
-                buildContentPage(articles);
-                $('#baraja-el li .article-text img').parent().css('text-align','center');
-                var baraja = $( '#baraja-el' ).baraja();  
+            buildCoverPage(); 
+            buildContentPage(articles);
+            $('#baraja-el li .article-text img').parent().css('text-align','center');
+            var baraja = $( '#baraja-el' ).baraja();  
                 // navigation
                 $( '#nav-prev' ).on( 'click', function( event ) {
                 
@@ -546,14 +532,16 @@ function AD()
                     baraja.next();
                 
                 } ); 
+                 
+                Promise.all(goprocess(4)).then(()=>{ 
+                    setTimeout(()=>{                                                   
+                        Loading.stopLoading();
+                        $('.event').hide();
+                        $('.books').show(600);
+                        $('.light').show();
+                  },  100 + Math.random() * 300 );
+                });    
                 
-                    
-                setTimeout(()=>{                                                   
-                    Loading.stopLoading();
-                    $('.event').hide();
-                    $('.books').show(600);
-                    $('.light').show();
-                },  (5 + Math.random() * 3) * 1000);
         })
         //构建封面
         function buildCoverPage(){                              
@@ -598,7 +586,7 @@ function AD()
         function buildContentPage(articles){  
             if(articles && articles.length > 0)
             {
-                articles.map((article)=>{
+                articles.forEach((article,index)=>{
                 var containerLi = document.createElement('li');
                 var containerContent = document.createElement('div');
                 containerContent.className = 'content-page';
@@ -620,7 +608,20 @@ function AD()
                 var img = document.createElement('img');
                 var pb = document.createElement('p');
                 containerPb.className = 'publish';
-                img.src = './image/publish.png';
+                /* if(index%2 == 0)
+                {
+                    img.src = './image/publish2.png';
+                }else{
+                    img.src = './image/publish.png';
+                } */
+                 if(article.important)
+                {
+                    img.src = './image/publish2.png';
+                    console.log(article.title);
+                }else{
+                    img.src = './image/publish.png';
+                } 
+                
                 img.className = 'publish-img';
                 pb.className = 'publish-text';
                 pb.textContent = '发 布';
@@ -647,34 +648,46 @@ function AD()
     //发布 展示结果页
     var publish = function(id){
         $('.books').hide(600,()=>{
-            $('.pbLoading').show();
-            SetPublish(id).then((res)=>{
-                setTimeout(() => {
-                var str = 'http://baijiahao.baidu.com/s?id=1640103312420732224';
-                if(res)
-                {
-                    str  = res;
-                }
-                /* $('#code').qrcode({ 
-                                    width: 190,
-                                    height:190,
-                                    text: str
-                                }); */
-                document.getElementById('articleiframe').src = str;
-                $('.light').attr('src','./image/ligt2.png');
-                $('.pbLoading').hide(600);
-                $('.result').show(600);
+            Loading.startLoading(()=>{
+                $('.books').hide();
+            });
+            makeProcess('#loadingContainer',['文章合规分析', '原创度检测','选取媒体账号','提交至平台审核']); 
+            putBgColor('loadingContainer');
 
-                }, 4000);
+            var ps = goprocess(4);
+            ps.push(SetPublish(id));
+
+            Promise.all(ps).then((sResult)=>{                                                   
+                    console.log(sResult);
+                    var res = sResult[sResult.length-1]
+                    setTimeout(() => {
+                        Loading.stopLoading();
+                        var str = 'http://baijiahao.baidu.com/s?id=1640103312420732224';
+                        if(res)
+                        {
+                            str  = res;
+                        }
+                        /* $('#code').qrcode({ 
+                                            width: 190,
+                                            height:190,
+                                            text: str
+                                        }); */
+                        document.getElementById('articleiframe').src = str;
+                        $('.light').attr('src','./image/light2.png');
+                         
+                        $('.result').show(600);
+        
+                        
+              },  100 + Math.random() * 300 );
+            });    
+            
         }); 
         
-
-    });
     }
     //黑客帝国loading
-    this.Loading =   
+    var Loading =   
      {
-        startLoading  : function()
+        startLoading  : function(callback)
         {
             var canvas = document.getElementById("canvas");
             canvas.style.display = 'block';
@@ -711,7 +724,8 @@ function AD()
                 });//数组元素的一个映射            
     
             }  
-            
+            callback && callback();
+            //canvas.style.opacity = 0.4;
            
 		},
  
@@ -724,6 +738,19 @@ function AD()
                     clearInterval(loadingTimer);
                     var canvas = document.getElementById("canvas");
                     canvas.style.display = 'none';
+                    $('#loadingContainer').hide(600,()=>{
+                        $('#loadingContainer').html('');
+                        for(var each in pageTimer){
+                            clearInterval(pageTimer[each]);
+                        } 
+                    })
+                }
+            },
+            suspend :function(){
+                if(loadingTimer)
+                {
+                    clearInterval(loadingTimer);
+                     
                 }
             }
          
@@ -733,12 +760,85 @@ function AD()
 
 }
 
+function goprocess(allstep)
+            {
+                var ps = [];
+                var time = 0;
+                for (let index = 1; index <= allstep+1; index++) {
+                    var _time = 2000 + parseInt(Math.random() * 3000);
+                    time += _time;
+                    var p = new Promise(function(resolve,reject){
+                        setTimeout(() => { 
+                            settBgOpacity('loadingContainer',index,allstep);
+                            resolve(index);                            
+                            }, time);
+                        });       
+                   ps.push(p) 
+                    
+                }
+
+                return ps;
+                        /* settBgOpacity('loadingContainer',step,allstep);
+                         
+                            return new Promise((resolve,reject)=>{
+                              setTimeout(() => {
+                                step++;
+                                settBgOpacity('loadingContainer',step,allstep);
+                                resolve(step);
+                                }, 3000 + parseInt(Math.random() * 5000));
+                            });  */              
+                
+            }
+
+function makeProcess(container,allStep)
+{
+    var processDiv = $('.template .processContainer').clone();
+    $(container).css('display','block');
+    $(container).html('');
+
+    //processDiv.css('display','none');
+    var tagC = $(processDiv).find('.tagContainer .nodetitle').eq(0).clone();
+    var pointC = $(processDiv).find('.pointContainer .point').eq(0).clone();
+    $(processDiv).find('.tagContainer').html('');
+    $(processDiv).find('.pointContainer').html('');
+
+    if(allStep && allStep.length)
+    {
+        allStep.forEach((step)=>{
+               var tag = tagC.clone();
+               tag.html('<img alt="" src="./image/ok.png" style="display: none" /> ' + step);
+               $(processDiv).find('.tagContainer').append(tag);
+
+               for (let index = 0; index < 40; index++) {
+                   var element = pointC.clone();
+                   if(index == 0)
+                   {
+                     element[0].className = 'point pointStart';
+                   }else{
+                    element[0].className = 'point';
+                   }
+                   $(processDiv).find('.pointContainer').append(element);                 
+               }
+        })
+    }
+
+    $(container).append(processDiv);
+}
+
+
 function setcolor(){
     var color = Math.ceil(Math.random()*16777215).toString(16); 			
         while(color.length<6){
             color = '0'+color;
         }
-        return '#'+color;
+
+        var c = '#'+color;
+        var cc = colorConversion(c);
+        if(cc[0] < 50 || cc[1] < 50 || cc[2] < 50)
+        {
+            return setcolor()
+        }
+        return c;
     }
 function randomColor()
 {
@@ -768,19 +868,13 @@ function toUtf8(str) {
     return out;   
 }
 
-$(function(){
-     var ad = new AD();
-     ad.PeopleTask(); 
-     //ad.Loading.startLoading();
-     $('.topbar').click(function(){
-          document.location.href = document.location;
-     });
-})
 
+
+//设置渐变色中的某一步明暗动画
 function settBgOpacity(obj,step,Allstep)
-{
-        
-          var len = $('.'+ obj + ' .pointContainer .point').length;
+{       
+         
+    var len = $('.'+ obj + ' .pointContainer .point').length;
       	  
       	  var _len = parseInt(len / Allstep);
       	 
@@ -792,67 +886,92 @@ function settBgOpacity(obj,step,Allstep)
                 $(item).css({'opacity':'1'});
             }            
           })
-          var t = (step -1) * _len;
-          clearInterval(pageTimer['point']);
-
-          pageTimer['point'] = setInterval(function(){
-                if(t < step * _len)
-                {
-                    $('.'+ obj + ' .pointContainer .point').eq(t).css({'opacity':'1'});
-                    t++;
-                }else{
-                    t = (step -1) * _len;
-                    $('.'+ obj + ' .pointContainer .point:gt('+ t +')').css({'opacity':'0.1'});
-                }
-                
-                 
-          },30);
-
           $('.'+ obj + ' .tagContainer .nodetitle').each((index,item)=>{
             if(index < step)
             {
                 $(item).css({'opacity':'1'});
             }else{
-                $(item).css({'opacity':'0.1'});
+                $(item).css({'opacity':'0'});
             }
           
-      })
+         
+        
+        })
+          if(step > 1)
+          {
+                $('.'+ obj + ' .tagContainer .nodetitle').eq(step-2).find('img').show(600);
+          }
+          
+          clearInterval(pageTimer['point']);
+           if(step  <= Allstep)
+           {
+            
+          var t = (step -1) * _len;
+
+            pageTimer['point'] = setInterval(function(){
+                        if(t < step * _len)
+                        {
+                            $('.'+ obj + ' .pointContainer .point').eq(t).css({'opacity':'1'});
+                            t++;
+                        }else{
+                            t = (step -1) * _len;
+                            $('.'+ obj + ' .pointContainer .point:gt('+ t +')').css({'opacity':'0.1'});
+                        }
+                        
+                        
+                },30);
+
+                
+           }  
+          
+
+          
        
 }
 
+//设置obj内部一串.point元素渐变色
 function putBgColor(obj)
 {
-       var colors = ['#2f71ff','#ffb710','#e44335','#2dba52'];
-	   var _colors = [colorConversion(colors[0]),colorConversion(colors[1]),colorConversion(colors[2]),colorConversion(colors[3]),]
+       //var colors = ['#2f71ff','#ffb710','#e44335','#2dba52']; 
+	   var _colors = [[47,113,255],[255,183,16],[228,67,57],[45,186,82]]
       
-      	var len = $('.pointContainer .point').length;
+          var len = $('.'+ obj + ' .pointContainer .point').length; 
       	var _len = parseInt(len / 4);
-      	var colorIndex = 1;
+      	var colorIndex = 0;
       	var initcolor = _colors[0];
-      	var toColor = _colors[colorIndex];
+        var toColor = _colors[1];
+          
+		_R_step=parseInt(Math.ceil(Math.abs(initcolor[0] - toColor[0])/_len)); //R的增减步长
+		_G_step=parseInt(Math.ceil(Math.abs(initcolor[1] - toColor[1])/_len)); //G的增减步长
+		_B_step=parseInt(Math.ceil(Math.abs(initcolor[2] - toColor[2])/_len)); //B的增减步长 
          
-		var _step=10;
-		var _R_step=parseInt(Math.abs(initcolor[0]-toColor[0])/_len); //R的增减步长
-		var _G_step=parseInt(Math.abs(initcolor[1]-toColor[1])/_len); //G的增减步长
-		var _B_step=parseInt(Math.abs(initcolor[2]-toColor[2])/_len); //B的增减步长 
+        if(_R_step == 0 ) _R_step = 1;
+        if(_G_step == 0)  _G_step = 1;
+        if(_B_step == 0)  _B_step = 1;
+         
       	$('.'+ obj + ' .pointContainer .point').each((index,item)=>{
-      		  if(index > 0 && index%_len == 0 && colorIndex < _colors.length -1)
+      		  if(index%_len == 0 && colorIndex < _colors.length -1)
       		  {
       		  	    initcolor = _colors[colorIndex];
 					colorIndex++;
 					toColor = _colors[colorIndex]; 
-					_R_step=parseInt(Math.abs(initcolor[0]-toColor[0])/_len); //R的增减步长
-		 			_G_step=parseInt(Math.abs(initcolor[1]-toColor[1])/_len); //G的增减步长
-		 			_B_step=parseInt(Math.abs(initcolor[2]-toColor[2])/_len); //B的增减步长
-		 			console.log(initcolor);
-		 			 
-      		  } 
+					_R_step=parseInt(Math.ceil(Math.abs(initcolor[0] - toColor[0])/_len)); //R的增减步长
+		 			_G_step=parseInt(Math.ceil(Math.abs(initcolor[1] - toColor[1])/_len)); //G的增减步长
+		 			_B_step=parseInt(Math.ceil(Math.abs(initcolor[2] - toColor[2])/_len)); //B的增减步长 
+                      
+                     if(_R_step == 0 ) _R_step = 1;
+                     if(_G_step == 0)  _G_step = 1;
+                     if(_B_step == 0)  _B_step = 1;
+                } 
+                
               $(item).css({'background-color':'rgb('+initcolor[0]+','+initcolor[1]+','+initcolor[2]+')'});
-             initcolor = getColor(index+1 ,initcolor,toColor,_R_step,_G_step,_B_step);
+             initcolor = getColor(index %_len ,initcolor,toColor,_R_step,_G_step,_B_step);
              
       	})
        
 }
+
+//颜色值十六进制转RGB
 function colorConversion(code){
     var len=code.length;
     var f=new Array();
@@ -883,25 +1002,27 @@ function colorConversion(code){
     return [r,g,b];
 }
 
+//渐变色 当前颜色与目标颜色之间，根据step计算下一个颜色值
 function getColor(_step,_thisRGB,_toRGB,_R_step,_G_step,_B_step){
-   var r=_step==1?_thisRGB[0]:(_thisRGB[0]>_toRGB[0] ? _thisRGB[0] -_R_step :_thisRGB[0] + _R_step);
-    var g=_step==1?_thisRGB[1]:(_thisRGB[1]>_toRGB[1] ? _thisRGB[1] - _G_step :_thisRGB[1] + _G_step);
-    var b=_step==1?_thisRGB[2]:(_thisRGB[2]>_toRGB[2] ? _thisRGB[2] - _B_step :_thisRGB[2] + _B_step);
+   var r=_step==0?_thisRGB[0]:(_thisRGB[0]>_toRGB[0] ? _thisRGB[0] -_R_step :_thisRGB[0] + _R_step);
+    var g=_step==0?_thisRGB[1]:(_thisRGB[1]>_toRGB[1] ? _thisRGB[1] - _G_step :_thisRGB[1] + _G_step);
+    var b=_step==0?_thisRGB[2]:(_thisRGB[2]>_toRGB[2] ? _thisRGB[2] - _B_step :_thisRGB[2] + _B_step);
 
     return [r,g,b]
 
 }
 
-function buildTopic(topics)
+//把话题绑定至DOM
+function buildTopic(topics,clkFun)
 {
      if(topics && topics.length > 0)
      {
           topics.forEach((item)=>{
                 var li = document.createElement('li');
                 li.style.color = setcolor();
-                var fs = 12 + parseInt(Math.random() * 20);
-                var pl = 3 + parseInt(Math.random() * 10);
-                var pr = 3 + parseInt(Math.random() * 10);
+                var fs = 14 + parseInt(Math.random() * 18);
+                var pl = 3 + parseInt(Math.random() * 19);
+                var pr = 4 + parseInt(Math.random() * 14);
 
                 li.style.fontSize = fs + 'px';
                 li.style.paddingLeft =  pl + 'px';
@@ -909,10 +1030,19 @@ function buildTopic(topics)
                 //li.style.lineHeight =  fs + 10 + 'px';
 
                 li.innerHTML = item;
+                li.onclick = clkFun.bind(null,item)
                 $('#tagsList .topicContainer').append(li);
           });
      }
 }
+//清空话题
+function TopicClear()
+{
+      
+        $('#tagsList .topicContainer').html('');
+          
+}
+//逐渐展示话题
 function TopicShow(callback)
 {
     $('#tagsList .topicContainer').animate({'opacity':1},2000)
@@ -929,13 +1059,20 @@ function TopicShow(callback)
                callback && callback(); 
         }
         
-    },100);
+    },200);
      
     
 }
 
 
 
-
+$(function(){
+    var ad = new AD();
+    ad.PeopleTask(); 
+    
+    $('.topbar').click(function(){
+         document.location.href = document.location;
+    });
+})
  
 

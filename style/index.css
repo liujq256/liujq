@@ -52,7 +52,7 @@ a {
 /* 内容区 */
 .content {
     width: 100%;
-    height: 77vh;
+    height: 80vh;
     margin-top: 5vh;
 }
 .left,
@@ -110,9 +110,11 @@ a {
 }
 .source {
     width: 100%;
-    font-size:24px;
-    font-weight:bold;
-    color:#fff;
+    font-size:24px; 
+	color:#fff;
+	opacity: .3;
+	position: relative;
+	top:115px;
 }
 
 @keyframes rotation{
@@ -165,16 +167,32 @@ a {
 }
 
 /***********    进度                  **********/
+.loadingContainer {  
+	z-index: 1000;
+	height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+	top: 0;
+	display: none;
+}
 .processContainer{
 	position:absolute;	 
 	border: none; 
 }
 .event .processContainer{ 
-	top:160px;
+	top:200px;
 	left:700px;
 	border: none;
 	width:990px;
 }
+.loadingContainer  .processContainer{ 
+	top:400px;
+	left:400px;
+	border: none;
+	width:1200px;
+}
+
 .tagContainer{
   width:100%;
   height:30px;
@@ -184,29 +202,44 @@ a {
   height:30px;
 }
 .point{
- width:5px;
- height:6px;
- border: 1px solid #ccc;
- border-radius: 2px;
-display: inline-block;
-margin: 0 -1px;
+ 	width:5px;
+ 	height:6px;
+ 	border: 1px solid #ccc;
+ 	border-radius: 2px;
+	display: inline-block;
+	margin: 0 -1px;
+	opacity: 0.1;
+}
+.loadingContainer .point{ 
+   margin: 0 1px; 
 }
 .pointStart{
- width:10px;
- height:20px; 
- margin-bottom: -7px;
+	width:10px;
+	height:20px; 
+	margin-bottom: -7px;
 }
-.nodetitle{
-   width:49%;
-   display: inline-block;
-   text-align: left;
-   padding-left: 10px;
-   font-size: 18px;
-   color: #fff;
-   font-weight: bold;
-   line-height: 30px;
+.loadingContainer .pointStart{
+	width:10px;
+	height:40px; 
+	margin-bottom: -15px !important
 }
-
+.nodetitle{ 
+	display: inline-block;
+	text-align: left;
+	padding-left: 10px;
+	font-size: 18px;
+	color: #fff;
+	font-weight: bold;
+	line-height: 30px;
+	opacity: .1;
+ }
+ 
+.event .nodetitle{
+   width:49%; 
+}
+.loadingContainer .nodetitle{
+	width:24%; 
+ }
 
 
 
@@ -218,7 +251,7 @@ margin: 0 -1px;
 
 }
 .label-box {
-    height: 35%;
+    height: 42%;
     width: 100%;  
     padding-left: 3%;
 }
@@ -257,15 +290,16 @@ margin: 0 -1px;
    list-style: none;
    cursor: pointer;
    opacity: 0;
-   padding-top: 8px;
-   padding-bottom: 8px;
+   padding-top: 5px;
+   padding-bottom: 5px;
 
    font-weight: bold; 
 
 }
  #tagsList .topicContainer li:hover{
 	box-shadow: 0px 0px 12px rgba(240, 252, 252, 0.5);
-	 letter-spacing: 2px; 
+	 /* letter-spacing: 2px;  */
+
 }
 
 #menu {

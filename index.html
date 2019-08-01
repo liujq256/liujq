@@ -1,6 +1,5 @@
 <!DOCTYPE html>
- <!-- <html  manifest="manifest.appcache"> -->
- <html>
+ <html  manifest="manifest.appcache">
 
 <head>
     <meta charset="UTF-8"> 
@@ -12,7 +11,7 @@
     <link rel="stylesheet" href="./style/swiper.min.css"  >
 
     <link rel="shortcut icon" href="./image/favicon.ico">
-    <title>妙笔-热门话题机器人</title>
+    <title>妙笔-内容生成引擎V2.0</title>
 </head>
 <body>
         <script src="./script/three.min.js" ></script>
@@ -24,7 +23,7 @@
                 <div class="topbar">
                     <img src="./image/logo.png" class="logo" alt="" />
                     <div class="title">
-                        热门话题机器人
+                            内容生成引擎V2.0
                     </div>
                 </div>
                 <div class="people">
@@ -51,10 +50,10 @@
                         <div class="processContainer">
                                 <div class="tagContainer">
                                     <div class="nodetitle">
-                                            查找相关文章
+                                            <img alt='' src='./image/ok.png' style='display: none' /> 查找相关文章
                                     </div>
                                     <div class="nodetitle">
-                                            提取热门话题
+                                            <img alt='' src='./image/ok.png' style='display: none' />  提取热门话题
                                     </div>
                                 </div>
                                 <div class="pointContainer">
@@ -187,11 +186,10 @@
                                      <div class="point"></div>
                                 </div>
                             </div>
-                        <div class="right fr">
-                                
+                        <div class="right fr">                              
                             <div class="label-box"  id="tagsList">                                   
                                     <ul class="topicContainer">
-                                        
+
                                     </ul>
 
                             </div>
@@ -206,7 +204,7 @@
                                                     </span>
                                                 </div>
                                          </div>          
-                                          <div class="source" style="position: relative;top:180px;">资讯</div>
+                                          <div class="source" >资讯</div>
                                         
                                         </li>
                                     <li class="item">
@@ -219,7 +217,7 @@
                                                                 
                                                     </div>
                                              </div>          
-                                              <div class="source" style="position: relative;top:180px;">微博</div>
+                                              <div class="source" >微博</div>
                                     </li>
                                     <li class="item">
                                             <div style="position: relative">
@@ -228,9 +226,10 @@
                                                             <span class="number number3">
                                                                      0
                                                             </span>
+                                                            
                                                     </div>
                                              </div>          
-                                              <div class="source" style="position: relative;top:180px;">微信</div>
+                                              <div class="source">微信</div>
                                     </li>
                                 </ul>
                             </div>
@@ -313,10 +312,88 @@
                 </div> 
                 
 
-    <canvas id="canvas" width="1920" height="1080" style = "display: none; opacity: 0.2;z-index: 9999999; position: absolute; left: 0; top: 0;"> 您的浏览器不支持canvas标签，请您更换浏览器 </canvas>
- 
+    <canvas id="canvas" width="1920" height="1080" style = "display: none; opacity: 1;z-index: 999; position: absolute; left: 0; top: 0;"> 您的浏览器不支持canvas标签，请您更换浏览器 </canvas>
+    <div id="loadingContainer" class='loadingContainer'></div>
         </div>
-    
+        
+
+        <div class="template" style='display:none'>
+            <div class="processContainer">
+                <div class="tagContainer">
+                    <div class="nodetitle"> 
+                    </div>
+                    
+                </div>
+                <div class="pointContainer">
+                     <div class="point pointStart"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>		 
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>			  
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div> 
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>		 
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>			  
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div> 
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>		 
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>		 
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>
+                     <div class="point"></div>		 
+                     <div class="point"></div>
+                     <div class="point"></div>
+                      
+                </div>
+            </div>
+        </div>
+
+        
 </body>
 <script src="./script/jquery.min.js" ></script>
 <script src="./script/babel.min.js" ></script>

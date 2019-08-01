@@ -144,15 +144,17 @@ jQuery.fn.reverse = [].reverse;
 		_updateStack : function( $el, dir ) {
 
 			var currZIndex = Number( $el.css( 'z-index' ) ),
-				newZIndex = dir === 'next' ? this.itemZIndexMin - 1 : this.itemZIndexMin + this.itemsCount,
-				extra = dir === 'next' ? '+=1' : '-=1';
+				/* newZIndex = dir === 'next' ? this.itemZIndexMin - 1 : this.itemZIndexMin + this.itemsCount,
+				extra = dir === 'next' ? '+=1' : '-=1'; */
 			
+				newZIndex = this.itemZIndexMin - 1,
+				extra =  '+=1' ;
 			$el.css( 'z-index', newZIndex );
 
 			this.$items.filter( function() {
 
 				var zIdx = Number( $( this ).css( 'z-index' ) ),
-					cond = dir === 'next' ? zIdx < currZIndex : zIdx > currZIndex
+					cond = zIdx < currZIndex 
 				
 				return cond;
 
@@ -297,7 +299,7 @@ jQuery.fn.reverse = [].reverse;
 
 			var self = this, 
 				extra = 15,
-				cond = dir === 'next' ? self.itemZIndexMin + self.itemsCount - 1 : self.itemZIndexMin,
+				/*cond = dir === 'next' ? self.itemZIndexMin + self.itemsCount - 1 : self.itemZIndexMin,
 				$item = this.$items.filter( function() {
 					
 					return Number( $( this ).css( 'z-index' ) ) === cond;
@@ -305,10 +307,26 @@ jQuery.fn.reverse = [].reverse;
 				} ),
 				translation = dir === 'next' ? $item.outerWidth( true ) + extra : $item.outerWidth( true ) * -1 - extra,
 				rotation = dir === 'next' ? 5 : 5 * -1;
-				
-			this._setTransition( $item, 'transform', this.options.speed, this.options.easing );
+				*/
 
-			this._applyTransition( $item, { transform : 'translate(' + (translation * -1) + 'px) rotate(' + (rotation * -1) + 'deg)' }, function() {
+				cond = self.itemZIndexMin + self.itemsCount - 1,
+				$item = this.$items.filter( function() {
+					
+					return Number( $( this ).css( 'z-index' ) ) === cond;
+
+				} ),
+				translation = $item.outerWidth( true ) + extra,
+				rotation = 5;
+
+
+
+
+			this._setTransition( $item, 'transform', this.options.speed, this.options.easing );
+			if(dir === 'next'){
+				translation = translation*-1;
+				rotation = rotation * -1;
+			}
+			this._applyTransition( $item, { transform : 'translate(' + translation + 'px) rotate(' + rotation + 'deg)' }, function() {
 
 				$item.off( self.transEndEventName );
 				self._updateStack( $item, dir );
