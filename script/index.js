@@ -19,6 +19,7 @@ var User = {
     id:'',
     topics:[],
     selectedTopic:'',
+    atricle:{}
 
 };
  
@@ -96,7 +97,7 @@ function AD()
                     transform( targets.grid, 1000 ); 
                 }, false );
               
-                transform( targets.helix, 1000 );    //螺旋转动
+                transform( targets.sphere, 1000 );    //螺旋转动
 
                 window.addEventListener( 'resize', onWindowResize, false );
             
@@ -324,7 +325,7 @@ function AD()
                User = {...data};
                var events = User.topics;
               putBgColor('event');
-              settBgOpacity('event',1,2); 
+              
               buildTopic(events,Books);
 
              //返回键显现
@@ -351,7 +352,12 @@ function AD()
                     $('.event').hide(300);                               
                     $('.people').show(800);
                     $('.loading-circle').hide();
-                    
+                    $('.event .tagContainer .nodetitle').eq(0).find('span').html('检索相关文章');
+                    $('.event .tagContainer .nodetitle').eq(1).find('span').html('提取热门话题');
+                    $('.event .tagContainer .nodetitle').find('img').hide();
+                    $('.event .tagContainer .nodetitle').css('opacity',0.1);
+                    $('.event .pointContainer .point').css('opacity',0.1);
+
                 });
 
                  
@@ -375,49 +381,36 @@ function AD()
                function startAnalyzeTopic(name)
                {
                  fetchCount(name).then((count)=>{
+
+                    settBgOpacity('event',1,2,2000); 
+
                     var k = parseInt(count);
                     var max1 = k;
                     var max2 = k * 0.5;
                     var max3 = k * 0.3;
 
-                    var min1 = k - 10000;
-                    var min2 = k * 0.5 - 10000;
-                    var min3 = k * 0.3 - 10000;
+                    //var min1 = k - 10000;
+                    //var min2 = k * 0.5 - 10000;
+                    //var min3 = k * 0.3 - 10000;
 
                     var max = [0,max1,max2,max3];
-                    var min = [0,min1,min2,min3];
+                    //var min = [0,min1,min2,min3];
                     var finish = [0,0,0,0]
-                    function setTimer (index,num)
-                    {
-                        var time1 = parseInt(Math.random() * 1000);
-                        pageTimer['set' + index] = setTimeout(() => {
-                         
-                                var step = parseInt( max[index] / 2 - Math.random() * 3000);
-                                                                                                               
-                                var num1 = num;
-                                num += step;
+                    var he = 0;
+                    function setTimer (index)
+                    { 
+                        var num = 0;
+                                
+                        pageTimer['timer' + index] = setInterval(() => {
                                 if(num < max[index])
                                 {
-                                    pageTimer['timer' + index] = setInterval(() => {
-                                        if(num1 < num)
-                                        {
-                                            num1 += (100 +  parseInt(Math.random() * 5000));
-                                            $('.number' + index).html(num1);
-                                        }else{
-                                            $('.number' + index).html(num);
-                                            clearInterval(pageTimer['timer' + index]); 
-                                            setTimer (index,num);
-                                            }
-                                        }, 30);
+                                    num +=  parseInt( (max[index] - Math.random() * 9000)* 30  / 2000);
+                                    $('.number' + index).html(num);
                                 }else{
-                                    
-                                    if(num1 < min[index])
-                                    {
-                                        num = min[index] +  parseInt(Math.random() * 10000);
-                                        $('.number' + index).html(num);
-                                    }
-                                    finish[index] = 1;
                                     clearInterval(pageTimer['timer' + index]);
+                                    finish[index] = 1;
+                                    he += parseInt($('.number' + index).html());
+                                    
                                     var sum = 0
                                     finish.forEach(ele => {
                                         sum += ele;
@@ -427,24 +420,47 @@ function AD()
                                     {
                                         $('.loading-circle').show(600); 
                                         settBgOpacity('event',2,2);
+                                         var sr = formatNumber(he);
+                                        $('.event .tagContainer .nodetitle').eq(0).find('span').html('已检索到文章'+sr+'篇');
+                                        
                                         TopicShow(()=>{
                                             settBgOpacity('event',3,2);
+                                        $('.event .tagContainer .nodetitle').eq(1).find('span').html('已完成热门话题提取');
+
                                             $('.loading-circle').hide(600); 
 
                                         })
                                     }
-                                }
-                                                                                                                                                    
+                                    }
+                                }, 30);
                                 
-                            }, time1);
+                                                                                                                                                   
+                                
+                             
                        }
  
-                setTimer(1,0);
-                setTimer(2,0);
-                setTimer(3,0);
+                setTimer(1);
+                setTimer(2);
+                setTimer(3);
                 })
             }
 
+            function formatNumber(s) {
+                if (!isNaN(s)) {
+                    s = $.trim(s + "");
+                    var l = s.split(".")[0].split("").reverse(), r = s.indexOf(".") >= 0 ? "."
+                            + s.split(".")[1]
+                            : "";
+                    t = "";
+                    for (var i = 0; i < l.length; i++) {
+                        t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+                    }
+                    return t.split("").reverse().join("") + r;
+             
+                } else {
+                    return s;
+                }
+            }
                 function animation(fun){
                     requestAnimationFrame(fun)  
                 }
@@ -503,46 +519,49 @@ function AD()
         Loading.startLoading(()=>{
             $('.event').hide();
         });       
+        makeProcess('#loadingContainer',['热门素材提取', '模板选型','素材风格迁移','文章生成']); 
+        putBgColor('loadingContainer'); 
+        var sResult = ['素材提取成功','配型完毕','风格迁移完成','生成完毕'];
+        Promise.all(goprocess(4,sResult)).then(()=>{
+            $('.loadingContainer .loadingnext').show(); 
+            $('.loadingContainer .loadingnext').click(function(){
+                Loading.stopLoading();
+                $('.event').hide();
+                $('.books').show(600);
+                $('.light').show();
+            });
+             
+      });     
+                fetchArticles(User.name,User.selectedTopic).then((articls)=>{
+                //clearCloud();
+                var articles = []; 
+                if(articls && articls.length > 0)
+                {
+                    articles = [...articls];
+                } 
+                                     
 
-        //Loading.suspend()
+                buildCoverPage(); 
+                buildContentPage(articles);
+                $('#baraja-el li .article-text img').parent().css('text-align','center');
+                var baraja = $( '#baraja-el' ).baraja();  
+                    // navigation
+                    $( '#nav-prev' ).on( 'click', function( event ) {
+                    
+                        baraja.previous();
+                    
+                    } );
+                    
+                    $( '#nav-next' ).on( 'click', function( event ) {
+                        baraja.next();               
+                    } ); 
+                    
+                    
+                    
+            })
+        
                                                   
-        fetchArticles(User.name,User.selectedTopic).then((articls)=>{
-            clearCloud();
-            var articles = [];
-            //console.log(articls);
-            if(articls && articls.length > 0)
-            {
-                articles = [...articls];
-            } 
-            makeProcess('#loadingContainer',['分析热门话题', '选取文章模板','精确匹配素材','合成文章']); 
-            putBgColor('loadingContainer');                      
-
-            buildCoverPage(); 
-            buildContentPage(articles);
-            $('#baraja-el li .article-text img').parent().css('text-align','center');
-            var baraja = $( '#baraja-el' ).baraja();  
-                // navigation
-                $( '#nav-prev' ).on( 'click', function( event ) {
-                
-                    baraja.previous();
-                
-                } );
-                
-                $( '#nav-next' ).on( 'click', function( event ) {
-                    baraja.next();
-                
-                } ); 
-                 
-                Promise.all(goprocess(4)).then(()=>{ 
-                    setTimeout(()=>{                                                   
-                        Loading.stopLoading();
-                        $('.event').hide();
-                        $('.books').show(600);
-                        $('.light').show();
-                  },  100 + Math.random() * 300 );
-                });    
-                
-        })
+        
         //构建封面
         function buildCoverPage(){                              
             var containerLi = document.createElement('li');
@@ -586,7 +605,7 @@ function AD()
         function buildContentPage(articles){  
             if(articles && articles.length > 0)
             {
-                articles.forEach((article,index)=>{
+                articles.forEach((article)=>{
                 var containerLi = document.createElement('li');
                 var containerContent = document.createElement('div');
                 containerContent.className = 'content-page';
@@ -616,8 +635,7 @@ function AD()
                 } */
                  if(article.important)
                 {
-                    img.src = './image/publish2.png';
-                    console.log(article.title);
+                    img.src = './image/publish2.png'; 
                 }else{
                     img.src = './image/publish.png';
                 } 
@@ -629,6 +647,7 @@ function AD()
                 containerPb.appendChild(pb);
                 containerPb.onclick = function(e){
                     e.stopPropagation();
+                    User.article = article;
                     publish(article._id);                              
                 } 
                 containerContent.appendChild(box);
@@ -646,20 +665,45 @@ function AD()
     }
 
     //发布 展示结果页
-    var publish = function(id){
+    var publish = function(){
         $('.books').hide(600,()=>{
+            $('.light').hide();
             Loading.startLoading(()=>{
                 $('.books').hide();
             });
-            makeProcess('#loadingContainer',['文章合规分析', '原创度检测','选取媒体账号','提交至平台审核']); 
+            makeProcess('#loadingContainer',['合规分析', '原创监测','智能匹配发布账号','提交平台审核']); 
             putBgColor('loadingContainer');
+            var sResult = ['合规检测通过','飘红率低于10%','已选择发布账号','已提交，审核中'];
+            var ps = goprocess(4,sResult);
+            var _date = new Date();
+            var now = new Date();
+            
+            _date.setDate(3);
+            _date.setHours(10,0,0);
+            if(now.getTime() > _date.getTime())
+            {
+                //alert('调接口');
+                ps.push(SetPublish(id));
+            }
+            //ps.push(SetPublish(id));
 
-            var ps = goprocess(4);
-            ps.push(SetPublish(id));
+            var ar = User.article;
+            var date = new Date();
+            var now =  date.format('yyyy-MM-dd hh:mm:ss');
+            $('.result .iphone-mine .article-title').html(ar.title);
+            $('.result .iphone-mine .article-content div').html(ar.content);
+            $('.result .iphone-mine .article-sub span').eq(0).html(now);
 
-            Promise.all(ps).then((sResult)=>{                                                   
-                    console.log(sResult);
-                    var res = sResult[sResult.length-1]
+
+            Promise.all(ps).then(()=>{   
+                $('.loadingContainer .loadingnext').show(); 
+                $('.loadingContainer .loadingnext').click(function(){
+                    Loading.stopLoading();                   
+                                       
+                    $('.result').show(600);
+                });                                        
+                     
+                    /* var res = sResult[sResult.length-1]
                     setTimeout(() => {
                         Loading.stopLoading();
                         var str = 'http://baijiahao.baidu.com/s?id=1640103312420732224';
@@ -667,18 +711,14 @@ function AD()
                         {
                             str  = res;
                         }
-                        /* $('#code').qrcode({ 
-                                            width: 190,
-                                            height:190,
-                                            text: str
-                                        }); */
+                        
                         document.getElementById('articleiframe').src = str;
                         $('.light').attr('src','./image/light2.png');
                          
                         $('.result').show(600);
         
                         
-              },  100 + Math.random() * 300 );
+              },  100 + Math.random() * 300 ); */
             });    
             
         }); 
@@ -719,10 +759,16 @@ function AD()
                     x = n*10;
                     can.fillText(text,x,y)
                     //words[n]=( y > 758 + Math.random()*484 ? 0:y + 10 );
-                    words[n]=( y > 758 + Math.random()*484 ? 0 : y + (1 + parseInt(Math.random() * 40)) );
+                    //words[n]=( y > 758 + Math.random()*484 ? 0 : y + (1 + parseInt(Math.random() * 40)) );
+                    words[n]=( y + (1 + parseInt(Math.random() * 40)) );
+
 
                 });//数组元素的一个映射            
-    
+                var m = Math.max(...words);
+                if(m > 1200)
+                {
+                    clearInterval(loadingTimer);
+                }
             }  
             callback && callback();
             //canvas.style.opacity = 0.4;
@@ -755,21 +801,22 @@ function AD()
             }
          
     }
-
-    
-
 }
 
-function goprocess(allstep)
+function goprocess(allstep,sResult)
             {
                 var ps = [];
                 var time = 0;
                 for (let index = 1; index <= allstep+1; index++) {
-                    var _time = 2000 + parseInt(Math.random() * 3000);
+                    var _time = 1000 + parseInt(Math.random() * 1000);
                     time += _time;
-                    var p = new Promise(function(resolve,reject){
+                    var p = new Promise(function(resolve){
                         setTimeout(() => { 
                             settBgOpacity('loadingContainer',index,allstep);
+                            if(sResult && index > 1)
+                            {
+                                $('.loadingContainer .tagContainer .nodetitle').eq(index-2).find('span').html(sResult[index-2]);
+                            }
                             resolve(index);                            
                             }, time);
                         });       
@@ -777,17 +824,7 @@ function goprocess(allstep)
                     
                 }
 
-                return ps;
-                        /* settBgOpacity('loadingContainer',step,allstep);
-                         
-                            return new Promise((resolve,reject)=>{
-                              setTimeout(() => {
-                                step++;
-                                settBgOpacity('loadingContainer',step,allstep);
-                                resolve(step);
-                                }, 3000 + parseInt(Math.random() * 5000));
-                            });  */              
-                
+                return ps;                      
             }
 
 function makeProcess(container,allStep)
@@ -806,7 +843,7 @@ function makeProcess(container,allStep)
     {
         allStep.forEach((step)=>{
                var tag = tagC.clone();
-               tag.html('<img alt="" src="./image/ok.png" style="display: none" /> ' + step);
+               tag.html('<img alt="" src="./image/ok.png" style="display: none" /><span> ' + step + '</span>');
                $(processDiv).find('.tagContainer').append(tag);
 
                for (let index = 0; index < 40; index++) {
@@ -822,7 +859,15 @@ function makeProcess(container,allStep)
         })
     }
 
+    var btn = document.createElement('div');
+    btn.className = 'loadingnext';
+    var imgnext = document.createElement('img');
+    imgnext.src = './image/next.png';
+    btn.appendChild(imgnext);
+    //btn.innerHTML = '下一步'
     $(container).append(processDiv);
+    $(container).append(btn);
+
 }
 
 
@@ -871,7 +916,7 @@ function toUtf8(str) {
 
 
 //设置渐变色中的某一步明暗动画
-function settBgOpacity(obj,step,Allstep)
+function settBgOpacity(obj,step,Allstep,time)
 {       
          
     var len = $('.'+ obj + ' .pointContainer .point').length;
@@ -891,7 +936,7 @@ function settBgOpacity(obj,step,Allstep)
             {
                 $(item).css({'opacity':'1'});
             }else{
-                $(item).css({'opacity':'0'});
+                $(item).css({'opacity':'0.1'});
             }
           
          
@@ -906,20 +951,25 @@ function settBgOpacity(obj,step,Allstep)
            if(step  <= Allstep)
            {
             
-          var t = (step -1) * _len;
-
+           var t = (step -1) * _len;
+            var interval = 30;
+            if(time)
+            {
+                interval = parseInt(time/_len);
+            }
             pageTimer['point'] = setInterval(function(){
                         if(t < step * _len)
                         {
                             $('.'+ obj + ' .pointContainer .point').eq(t).css({'opacity':'1'});
                             t++;
-                        }else{
+                        }
+                        /* else{
                             t = (step -1) * _len;
                             $('.'+ obj + ' .pointContainer .point:gt('+ t +')').css({'opacity':'0.1'});
-                        }
+                        } */
                         
                         
-                },30);
+                },interval);
 
                 
            }  
@@ -1064,6 +1114,33 @@ function TopicShow(callback)
     
 }
 
+Date.prototype.format = function (format) {
+    var o = {
+        "M+": this.getMonth() + 1,
+        // month
+        "d+": this.getDate(),
+        // day
+        "h+": this.getHours(),
+        // hour
+        "m+": this.getMinutes(),
+        // minute
+        "s+": this.getSeconds(),
+        // second
+        "q+": Math.floor((this.getMonth() + 3) / 3),
+        // quarter
+        "S": this.getMilliseconds()
+        // millisecond
+    };
+    if (/(y+)/.test(format) || /(Y+)/.test(format)) {
+        format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    }
+    for (var k in o) {
+        if (new RegExp("(" + k + ")").test(format)) {
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+        }
+    }
+    return format;
+};
 
 
 $(function(){

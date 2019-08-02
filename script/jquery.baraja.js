@@ -129,8 +129,7 @@ jQuery.fn.reverse = [].reverse;
 			return settings;
 
 		},
-		_setStack : function( $items ) {
-
+		_setStack : function( $items ) { 
 			var self = this;
 			$items = $items || this.$items;
 
@@ -141,8 +140,7 @@ jQuery.fn.reverse = [].reverse;
 			} );
 
 		},
-		_updateStack : function( $el, dir ) {
-
+		_updateStack : function( $el, dir ) { 
 			var currZIndex = Number( $el.css( 'z-index' ) ),
 				/* newZIndex = dir === 'next' ? this.itemZIndexMin - 1 : this.itemZIndexMin + this.itemsCount,
 				extra = dir === 'next' ? '+=1' : '-=1'; */
@@ -194,17 +192,27 @@ jQuery.fn.reverse = [].reverse;
 					self._move2front( $( this ) );
 
 				} */
-				 /*
-				var screenW = window.screen.width;
-				var client = e.clientX || e.pageX;
-				if(client >= screenW/2)
-				{
-					self._dispatch( self._navigate, 'next' );
-				}else{
-					self._dispatch( self._navigate, 'prev' );
-				}
-				*/
+				 /**/
 
+				if(e.target.className == 'person-page')
+				{ 
+					/* var screenW = window.screen.width;
+					var client = e.clientX || e.pageX;
+					if(client >= screenW/2)
+					{
+						self._dispatch( self._navigate, 'next' );
+					}else{
+						self._dispatch( self._navigate, 'prev' );
+					} */
+					self._dispatch( self._navigate, 'next' );
+					self.$items.splice(0, 1);
+					self.itemZIndexMin = self.itemZIndexMin +1;
+					self.itemsCount = self.$items.length;
+					$('#nav-next').show();
+					$('#nav-prev').show();
+
+					//$('#baraja-el li:eq(0)').remove();
+				}
 			} ); 
 
 		},
@@ -339,11 +347,10 @@ jQuery.fn.reverse = [].reverse;
 
 				} );
 
-			} );
+			} ); 
 
 		},
-		_move2front : function( $item ) {
-
+		_move2front : function( $item ) { 
 			this.isAnimating = true;
 
 			var self = this,
@@ -577,7 +584,7 @@ jQuery.fn.reverse = [].reverse;
 				return false;
 			}
 
-			this.isAnimating = true;
+			//this.isAnimating = true;
 			
 			this._prepare( function() {
 

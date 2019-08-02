@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# version 201908011708001
+# version 201908011814
 
 CACHE:
 ./style/styles.css
@@ -10,11 +10,11 @@ CACHE:
 ./script/CSS3DRenderer.js
 ./script/jquery.baraja.js
 ./script/jquery.min.js
-./script/jquery.qrcode.min.js
+#./script/jquery.qrcode.min.js
 ./script/modernizr.custom.79639.js
 ./script/polyfill.min.js
 ./script/service.js
-./script/tags.js
+#./script/tags.js
 ./script/three.min.js
 ./script/TrackballControls.js
 ./script/tween.min.js  

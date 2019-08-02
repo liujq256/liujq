@@ -1,5 +1,6 @@
 <!DOCTYPE html>
- <html  manifest="manifest.appcache">
+ <!-- <html  manifest="manifest.appcache"> -->
+<html>
 
 <head>
     <meta charset="UTF-8"> 
@@ -50,10 +51,10 @@
                         <div class="processContainer">
                                 <div class="tagContainer">
                                     <div class="nodetitle">
-                                            <img alt='' src='./image/ok.png' style='display: none' /> 查找相关文章
+                                            <img alt='' src='./image/ok.png' style='display: none' /> <span>检索相关文章</span>
                                     </div>
                                     <div class="nodetitle">
-                                            <img alt='' src='./image/ok.png' style='display: none' />  提取热门话题
+                                            <img alt='' src='./image/ok.png' style='display: none' />  <span>提取热门话题</span>
                                     </div>
                                 </div>
                                 <div class="pointContainer">
@@ -182,8 +183,7 @@
                                      <div class="point"></div>
                                      <div class="point"></div>
                                      <div class="point"></div>
-                                     <div class="point"></div>
-                                     <div class="point"></div>
+                                     <div class="point"></div> 
                                 </div>
                             </div>
                         <div class="right fr">                              
@@ -239,7 +239,7 @@
                 <div class="books swiper-box no-js">
                         
                                 <!-- 话题 -->
-                        <div class="topic">
+                        <div class="topic" style="display: none">
                                 <p class="topic-title">生成话题</p>
                                 <p class="author">本文由妙笔机器人撰写</p>
                         </div>
@@ -261,45 +261,66 @@
                         <div class="swiper-button-prev" id="nav-prev"></div>      
                              
                 </div>
-                <div class="pbLoading loader">                       
-                                <div class="text"></div>
-                                <div class="horizontal">
-                                  <div class="circlesup">
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                  </div>
-                                  <div class="circlesdwn">
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                  </div>
-                                </div>
-                                <div class="vertical">
-                                  <div class="circlesup">
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                  </div>
-                                  <div class="circlesdwn">
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                        <div class="circle"></div>
-                                  </div>
-                                </div>    
-                </div>
+                 
                 <div class="result ewm-box">
                                 <div class="iphone-box">
-                                     <iframe  id="articleiframe"></iframe>
+                                        <div class="iphone-content">
+                                                <!-- topbar -->
+                                                <div class="middlebar-inner">
+                                                    <img src="./image/iphone-logo.png" alt="" class="iphone-logo" />
+                                                    <div class="iphone-nav">
+                                                        <span>首页</span>
+                                                        <span>/</span>
+                                                        <span>时尚</span>
+                                                        <span>/</span>
+                                                        <span class="end">正文</span>
+                                                        <div class="preview">发布预览</div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <!-- side -->
+                                                <div class="iphone-side">
+                                                    <div class="share-box">
+                                                        <img src="./image/pinglun-icon.png" alt="" class="pl-icon">
+                                                    </div>
+                                                    <ul class="icon-list">
+                                                        <li class="item">
+                                                            <img src="./image/icon1.png" alt="" class="icon fl">
+                                                            <p class="text ">转发</p>
+                                                        </li>
+                                                        <li class="item">
+                                                            <img src="./image/icon2.png" alt="" class="icon fl">
+                                                            <p class="text ">微博</p>
+                                                        </li>
+                                                        <li class="item">
+                                                            <img src="./image/icon3.png" alt="" class="icon fl">
+                                                            <p class="text ">Qzone</p>
+                                                        </li>
+                                                        <li class="item">
+                                                            <img src="./image/icon4.png" alt="" class="icon fl">
+                                                            <p class="text ">微信</p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <!-- mine -->
+                                                <div class="iphone-mine">
+                                                    <h1 class="article-title"></h1>
+                                                    <div class="article-sub">
+                                                        <!-- <span>红鲤娱与驴</span> -->
+                                                         <span style="color:#000;opacity:0.5"></span>
+                                                       <div>
+                                                           <div class="article-content">
+                                                              <div>
+                                                                
+                                                              </div>
+                                                           </div>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                                </div>
                                 </div>
+                                 
+                             
                                 <div class="ewm">
                                     <div class="fenxiang">分享成功</div>
                                     <div class="m-box" id="code">
@@ -312,8 +333,8 @@
                 </div> 
                 
 
-    <canvas id="canvas" width="1920" height="1080" style = "display: none; opacity: 1;z-index: 999; position: absolute; left: 0; top: 0;"> 您的浏览器不支持canvas标签，请您更换浏览器 </canvas>
-    <div id="loadingContainer" class='loadingContainer'></div>
+           <canvas id="canvas" width="1920" height="1080" style = "display: none; opacity: 0.8;z-index: 999; position: absolute; left: 0; top: 0;"> 您的浏览器不支持canvas标签，请您更换浏览器 </canvas>
+           <div id="loadingContainer" class='loadingContainer'></div>
         </div>
         
 
@@ -400,13 +421,13 @@
 <script src="./script/polyfill.min.js" ></script>
 <script src="./script/service.js" ></script>
 
-<script src="./script/tags.js" ></script>
+<!-- <script src="./script/tags.js" ></script> -->
 
 <script src="./script/modernizr.custom.79639.js" ></script>
 <script src="./script/jquery.baraja.js" ></script>
 
 <script src="./script/index.js" ></script>
-<script src="./script/jquery.qrcode.min.js" ></script>
+<!-- <script src="./script/jquery.qrcode.min.js" ></script> -->
 
 
 </html>

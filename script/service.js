@@ -5,7 +5,6 @@ var ADGetPeoplesUrl = 'api/AD/getstars';
 var ADGetEventsUrl = 'api/AD/getevents';
 var ADGetArticlesUrl = 'api/AD/geteventarticles';
 var ADPostpublishUrl = 'api/AD/publish';
-var ADPostpublishUrl = 'api/AD/publish';
 var ADGetnewsCountUrl = 'api/HotNews/getzxcount';
 
 

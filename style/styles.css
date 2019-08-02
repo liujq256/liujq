@@ -127,20 +127,20 @@ a:hover {
 }
 
 /* line 107, ../sass/partials/_base.scss */
-select,
+ select,
 input,
 img,
 select {
   vertical-align: middle;
   margin: 0;
   padding: 0;
-}
+} 
 
 /* line 116, ../sass/partials/_base.scss */
-img {
+/* img {
   vertical-align: middle;
   border: none;
-}
+} */
 
 /* line 121, ../sass/partials/_base.scss */
 .fl {
