@@ -543,7 +543,9 @@ function AD()
 
                 buildCoverPage(); 
                 buildContentPage(articles);
-                $('#baraja-el li .article-text img').parent().css('text-align','center');
+                $('#baraja-el li .article-text img').parent().css({'text-align':'center','padding':'10px 0'});
+                $('#baraja-el li .article-text img').css({'margin':'10px 0'});
+
                 var baraja = $( '#baraja-el' ).baraja();  
                     // navigation
                     $( '#nav-prev' ).on( 'click', function( event ) {
