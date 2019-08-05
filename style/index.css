@@ -185,11 +185,11 @@ a {
 	top:200px;
 	left:700px;
 	border: none;
-	width:990px;
+	width:840px;
 }
 .loadingContainer  .processContainer{ 
 	top:400px;
-	left:400px;
+	left:280px;
 	border: none;
 	width:1200px;
 }
@@ -210,7 +210,7 @@ a {
 
 	position: absolute;
     top: 435px;
-    left: 1545px;
+    left: 1425px;
     width: 35px;
     height: 35px;
     display: none;

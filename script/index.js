@@ -528,7 +528,7 @@ function AD()
                 Loading.stopLoading();
                 $('.event').hide();
                 $('.books').show(600);
-                $('.light').show();
+                $('.light').show(); 
             });
              
       });     
@@ -667,7 +667,7 @@ function AD()
     }
 
     //发布 展示结果页
-    var publish = function(){
+    var publish = function(id){
         $('.books').hide(600,()=>{
             $('.light').hide();
             Loading.startLoading(()=>{
@@ -677,16 +677,16 @@ function AD()
             putBgColor('loadingContainer');
             var sResult = ['合规检测通过','飘红率低于10%','已选择发布账号','已提交，审核中'];
             var ps = goprocess(4,sResult);
-            var _date = new Date();
+            /* var _date = new Date();
             var now = new Date();
             
             _date.setDate(3);
             _date.setHours(10,0,0);
             if(now.getTime() > _date.getTime())
-            {
+            { */
                 //alert('调接口');
-                ps.push(SetPublish(id));
-            }
+                SetPublish(id);
+            //}
             //ps.push(SetPublish(id));
 
             var ar = User.article;
